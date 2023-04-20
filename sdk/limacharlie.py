@@ -1,3 +1,10 @@
+# runZero Custom Integration with LimaCharlie
+# Docs: https://www.runzero.com/docs/integrations-inbound/
+# Docs: https://pypi.org/project/runzero-sdk/ 
+# Docs: https://doc.limacharlie.io/docs/documentation/dec140b42ad78-api-keys
+# Docs: https://doc.limacharlie.io/docs/api/43897cbb915ef-lima-charlie-io-rest-api
+# Prerequisite: pip install runzero-sdk
+
 import requests
 import os
 import uuid
@@ -11,6 +18,7 @@ from runzero.api import CustomAssets, Sites
 from runzero.types import (CustomAttribute,ImportAsset,IPv4Address,IPv6Address,NetworkInterface,ImportTask)
 
 # Configure runZero variables
+# Script uses pipenv, but os.environ[] can be swapped out for a hardcoded value to make testing easier
 RUNZERO_BASE_URL = 'https://console.runZero.com/api/v1.0'
 RUNZERO_CLIENT_ID = os.environ['RUNZERO_CLIENT_ID']
 RUNZERO_CLIENT_SECRET = os.environ['RUNZERO_CLIENT_SECRET']
@@ -23,8 +31,7 @@ RUNZERO_IMPORT_TASK_NAME = 'LimaCharlie Sync'
 RUNZERO_HEADER = {'Authorization': f'Bearer {RUNZERO_API_TOKEN}'}
 
 # Configure LimaCharlie variables
-# DOCS: https://doc.limacharlie.io/docs/documentation/dec140b42ad78-api-keys
-# DOCS: https://doc.limacharlie.io/docs/api/43897cbb915ef-lima-charlie-io-rest-api
+# Script uses pipenv, but os.environ[] can be swapped out for a hardcoded value to make testing easier
 LIMACHARLIE_JWT_URL = 'https://jwt.limacharlie.io/'
 LIMACHARLIE_BASE_URL = 'https://api.limacharlie.io/v1'
 LIMACHARLIE_OID = os.environ['LIMACHARLIE_OID']
@@ -54,7 +61,7 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
         # create the network interface
         network = build_network_interface(ips=[sensor_int_ip], mac=sensor_mac)
 
-        # *** DO NOT TOUCH ***
+        # *** Should not need to touch this ***
         # handle any additional values and insert into custom_attrs
         custom_attrs: Dict[str, CustomAttribute] = {}
         for key, value in item.items():
@@ -76,7 +83,7 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
         )
     return assets
 
-# *** DO NOT TOUCH ***
+# *** Should not need to touch this ***
 def build_network_interface(ips: List[str], mac: str = None) -> NetworkInterface:
     ''' 
     This function converts a mac and a list of strings in either ipv4 or ipv6 format and creates a NetworkInterface that
@@ -122,7 +129,8 @@ def import_data_to_runzero(assets: List[ImportAsset]):
 
 
     # (Optional)
-    # Check for custom source and create new one if it doesn't exist
+    # Check for custom integration source in runZero and create new one if it doesn't exist
+    # You can create one manually within the UI and hardcode RUNZERO_CUSTOM_SOURCE_ID
     '''
     custom_source_mgr = CustomSourcesAdmin(c)
     my_asset_source = custom_source_mgr.get(name='fortiedr')
@@ -173,6 +181,6 @@ def main():
     # Import assets into runZero
     import_data_to_runzero(assets=import_assets)
 
-# *** DO NOT TOUCH ***
+# *** Should not need to touch this ***
 if __name__ == '__main__':
     main()
