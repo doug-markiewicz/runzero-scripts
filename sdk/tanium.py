@@ -3,7 +3,6 @@ import os
 import uuid
 import json
 import datetime
-#from datetime import datetime
 from flatten_json import flatten
 from ipaddress import ip_address
 from typing import Any, Dict, List
@@ -164,9 +163,9 @@ def main():
                     manufacturer
                     serialNumber
                     eidFirstSeen
-				    eidLastSeen
-               		lastLoggedInUser
-				    isEncrypted     
+                    eidLastSeen
+                    lastLoggedInUser
+                    isEncrypted     
 
                 }
             }
