@@ -1,0 +1,861 @@
+{
+    "id": "0fa9e923-adbe-44c3-ad7c-d4ca557f678a",
+    "client_id": "14b4088a-c925-4f65-8a14-61f7c3defdd1",
+    "organization_id": "98a36554-45a9-4f38-889a-d96b5a3f4b57",
+    "created_at": 1691163320,
+    "updated_at": 1691166355,
+    "host_id": "ad271d5dd32c0f79c48a8a64a3adb9aa",
+    "hub_id": "00000000-0000-0000-0000-000000000000",
+    "name": "LINUX-01",
+    "site_id": "00000000-0000-0000-0000-000000000000",
+    "last_checkin": 1691166355,
+    "os": "linux",
+    "arch": "amd64",
+    "version": "3.10.12 (build 20230804002915) [f570441d4842fa62410885c07edbf5d1a824ecc9]",
+    "external_ip": "24.154.52.140",
+    "internal_ip": "192.168.2.200",
+    "system_info": {
+        "addresses": {
+            "192.168.2.200/24": "wlo1",
+            "fe80::6ee5:4ef1:7571:64b7/64": "wlo1"
+        },
+        "attributes": {
+            "CanScreenshot": "true",
+            "ChromePath": "/usr/bin/google-chrome"
+        },
+        "cpu": {
+            "cacheSize": 4096,
+            "coreId": "0",
+            "cores": 1,
+            "cpu": 0,
+            "family": "6",
+            "flags": [
+                "fpu",
+                "vme",
+                "de",
+                "pse",
+                "tsc",
+                "msr",
+                "pae",
+                "mce",
+                "cx8",
+                "apic",
+                "sep",
+                "mtrr",
+                "pge",
+                "mca",
+                "cmov",
+                "pat",
+                "pse36",
+                "clflush",
+                "dts",
+                "acpi",
+                "mmx",
+                "fxsr",
+                "sse",
+                "sse2",
+                "ss",
+                "ht",
+                "tm",
+                "pbe",
+                "syscall",
+                "nx",
+                "pdpe1gb",
+                "rdtscp",
+                "lm",
+                "constant_tsc",
+                "art",
+                "arch_perfmon",
+                "pebs",
+                "bts",
+                "rep_good",
+                "nopl",
+                "xtopology",
+                "nonstop_tsc",
+                "cpuid",
+                "aperfmperf",
+                "pni",
+                "pclmulqdq",
+                "dtes64",
+                "monitor",
+                "ds_cpl",
+                "vmx",
+                "est",
+                "tm2",
+                "ssse3",
+                "sdbg",
+                "fma",
+                "cx16",
+                "xtpr",
+                "pdcm",
+                "pcid",
+                "sse4_1",
+                "sse4_2",
+                "x2apic",
+                "movbe",
+                "popcnt",
+                "tsc_deadline_timer",
+                "aes",
+                "xsave",
+                "avx",
+                "f16c",
+                "rdrand",
+                "lahf_lm",
+                "abm",
+                "3dnowprefetch",
+                "cpuid_fault",
+                "epb",
+                "invpcid_single",
+                "ssbd",
+                "ibrs",
+                "ibpb",
+                "stibp",
+                "tpr_shadow",
+                "vnmi",
+                "flexpriority",
+                "ept",
+                "vpid",
+                "ept_ad",
+                "fsgsbase",
+                "tsc_adjust",
+                "sgx",
+                "bmi1",
+                "avx2",
+                "smep",
+                "bmi2",
+                "erms",
+                "invpcid",
+                "mpx",
+                "rdseed",
+                "adx",
+                "smap",
+                "clflushopt",
+                "intel_pt",
+                "xsaveopt",
+                "xsavec",
+                "xgetbv1",
+                "xsaves",
+                "dtherm",
+                "ida",
+                "arat",
+                "pln",
+                "pts",
+                "hwp",
+                "hwp_notify",
+                "hwp_act_window",
+                "hwp_epp",
+                "md_clear",
+                "flush_l1d",
+                "arch_capabilities"
+            ],
+            "mhz": 3900,
+            "microcode": "0xf0",
+            "model": "142",
+            "modelName": "Intel(R) Core(TM) i3-8145U CPU @ 2.10GHz",
+            "physicalId": "0",
+            "stepping": 11,
+            "vendorId": "GenuineIntel"
+        },
+        "disks": [
+            {
+                "device": "sysfs",
+                "fstype": "sysfs",
+                "mountpoint": "/sys",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "proc",
+                "fstype": "proc",
+                "mountpoint": "/proc",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "udev",
+                "fstype": "devtmpfs",
+                "mountpoint": "/dev",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "devpts",
+                "fstype": "devpts",
+                "mountpoint": "/dev/pts",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "tmpfs",
+                "fstype": "tmpfs",
+                "mountpoint": "/run",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/nvme0n1p2",
+                "fstype": "ext4",
+                "mountpoint": "/",
+                "opts": [
+                    "rw",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "securityfs",
+                "fstype": "securityfs",
+                "mountpoint": "/sys/kernel/security",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "tmpfs",
+                "fstype": "tmpfs",
+                "mountpoint": "/dev/shm",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev"
+                ]
+            },
+            {
+                "device": "tmpfs",
+                "fstype": "tmpfs",
+                "mountpoint": "/run/lock",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "cgroup2",
+                "fstype": "cgroup2",
+                "mountpoint": "/sys/fs/cgroup",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "pstore",
+                "fstype": "pstore",
+                "mountpoint": "/sys/fs/pstore",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "efivarfs",
+                "fstype": "efivarfs",
+                "mountpoint": "/sys/firmware/efi/efivars",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "bpf",
+                "fstype": "bpf",
+                "mountpoint": "/sys/fs/bpf",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "systemd-1",
+                "fstype": "autofs",
+                "mountpoint": "/proc/sys/fs/binfmt_misc",
+                "opts": [
+                    "rw",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "mqueue",
+                "fstype": "mqueue",
+                "mountpoint": "/dev/mqueue",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "hugetlbfs",
+                "fstype": "hugetlbfs",
+                "mountpoint": "/dev/hugepages",
+                "opts": [
+                    "rw",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "debugfs",
+                "fstype": "debugfs",
+                "mountpoint": "/sys/kernel/debug",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "tracefs",
+                "fstype": "tracefs",
+                "mountpoint": "/sys/kernel/tracing",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "configfs",
+                "fstype": "configfs",
+                "mountpoint": "/sys/kernel/config",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "fusectl",
+                "fstype": "fusectl",
+                "mountpoint": "/sys/fs/fuse/connections",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "ramfs",
+                "fstype": "ramfs",
+                "mountpoint": "/run/credentials/systemd-sysusers.service",
+                "opts": [
+                    "ro",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop0",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/bare/5",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop2",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/core20/1950",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop6",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/gnome-3-38-2004/140",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop11",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/gtk-common-themes/1535",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop9",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/gnome-42-2204/111",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/nvme0n1p2",
+                "fstype": "ext4",
+                "mountpoint": "/var/snap/firefox/common/host-hunspell",
+                "opts": [
+                    "ro",
+                    "noexec",
+                    "noatime",
+                    "bind"
+                ]
+            },
+            {
+                "device": "/dev/loop13",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/snap-store/959",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop12",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/snap-store/638",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop14",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/snapd-desktop-integration/83",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop17",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/snapd-desktop-integration/57",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop16",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/snapd/19457",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop15",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/snapd/19361",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/nvme0n1p1",
+                "fstype": "vfat",
+                "mountpoint": "/boot/efi",
+                "opts": [
+                    "rw",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "binfmt_misc",
+                "fstype": "binfmt_misc",
+                "mountpoint": "/proc/sys/fs/binfmt_misc",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "tmpfs",
+                "fstype": "tmpfs",
+                "mountpoint": "/run/user/127",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "gvfsd-fuse",
+                "fstype": "fuse.gvfsd-fuse",
+                "mountpoint": "/run/user/127/gvfs",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "portal",
+                "fstype": "fuse.portal",
+                "mountpoint": "/run/user/127/doc",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "tmpfs",
+                "fstype": "tmpfs",
+                "mountpoint": "/run/snapd/ns",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime",
+                    "bind"
+                ]
+            },
+            {
+                "device": "tmpfs",
+                "fstype": "tmpfs",
+                "mountpoint": "/opt/omd/sites/monitoring/tmp",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noexec",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop18",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/core20/1974",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "nsfs",
+                "fstype": "nsfs",
+                "mountpoint": "/run/snapd/ns/firefox.mnt",
+                "opts": [
+                    "rw",
+                    "bind"
+                ]
+            },
+            {
+                "device": "/dev/loop8",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/gnome-42-2204/120",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop10",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/core22/806",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop3",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/firefox/2880",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop5",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/gnome-3-38-2004/143",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "/dev/loop7",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/core22/817",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "nsfs",
+                "fstype": "nsfs",
+                "mountpoint": "/run/snapd/ns/snapd-desktop-integration.mnt",
+                "opts": [
+                    "rw",
+                    "bind"
+                ]
+            },
+            {
+                "device": "/dev/loop4",
+                "fstype": "squashfs",
+                "mountpoint": "/snap/firefox/2908",
+                "opts": [
+                    "ro",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "tmpfs",
+                "fstype": "tmpfs",
+                "mountpoint": "/run/user/1000",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "gvfsd-fuse",
+                "fstype": "fuse.gvfsd-fuse",
+                "mountpoint": "/run/user/1000/gvfs",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "relatime"
+                ]
+            },
+            {
+                "device": "portal",
+                "fstype": "fuse.portal",
+                "mountpoint": "/run/user/1000/doc",
+                "opts": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "relatime"
+                ]
+            }
+        ],
+        "ec2_attributes": {},
+        "egress4": "192.168.2.200",
+        "egress6": "127.0.0.1",
+        "env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+        ],
+        "go_arch": "amd64",
+        "go_os": "linux",
+        "go_version": "go1.20.7",
+        "goroutines": "goroutine 13 [running]:\ngithub.com/runZeroInc/runzero/rumble/systeminfo.GetGoroutines(0x400000)\n\t/home/runner/work/runzero/runzero/rumble/systeminfo/systeminfo_runtime.go:11 +0x45\ngithub.com/runZeroInc/runzero/rumble/systeminfo.New()\n\t/home/runner/work/runzero/runzero/rumble/systeminfo/systeminfo_full.go:123 +0x73b\ngithub.com/runZeroInc/runzero/rumble.GetExplorerSystemInfo()\n\t/home/runner/work/runzero/runzero/rumble/explorer_systeminfo.go:46 +0x85\ngithub.com/runZeroInc/runzero/rumble.GetExplorer({0xc0017e86c0, 0x1a}, {0xc000056af0, 0x49}, {0x0, 0x0}, 0xc002ac0000)\n\t/home/runner/work/runzero/runzero/rumble/explorer_client.go:117 +0xb7\nmain.handleExplorerLoop(0xc002e20b70, {0x3116800?, 0xc002e20cf0}, 0x0)\n\tmain.go:205 +0x13d\ncreated by main.(*ExplorerProgram).Start\n\tmain.go:276 +0x95\n\ngoroutine 1 [chan receive]:\ngithub.com/kardianos/service.(*systemd).Run.func1()\n\t/home/runner/go/pkg/mod/github.com/kardianos/service@v1.2.2/service_systemd_linux.go:231 +0x88\ngithub.com/kardianos/service.(*systemd).Run(0xc002e20cf0)\n\t/home/runner/go/pkg/mod/github.com/kardianos/service@v1.2.2/service_systemd_linux.go:232 +0x92\nmain.RunUX({0xc0017e86c0, 0x1a})\n\tagent_unix.go:247 +0xcc2\nmain.main()\n\tmain.go:196 +0x305\n\ngoroutine 7 [select]:\ngo.opencensus.io/stats/view.(*worker).start(0xc001786180)\n\t/home/runner/go/pkg/mod/go.opencensus.io@v0.24.0/stats/view/worker.go:292 +0xad\ncreated by go.opencensus.io/stats/view.init.0\n\t/home/runner/go/pkg/mod/go.opencensus.io@v0.24.0/stats/view/worker.go:34 +0x96\n\ngoroutine 8 [syscall]:\nos/signal.signal_recv()\n\tC:/go/src/runtime/sigqueue.go:152 +0x2f\nos/signal.loop()\n\tC:/go/src/os/signal/signal_unix.go:23 +0x19\ncreated by os/signal.Notify.func1.1\n\tC:/go/src/os/signal/signal.go:151 +0x2a\n\ngoroutine 9 [chan receive]:\ngithub.com/runZeroInc/runzero/rumble.HandleSIGCHLD.func1()\n\t/home/runner/work/runzero/runzero/rumble/utils_unix.go:26 +0x2f\ncreated by github.com/runZeroInc/runzero/rumble.HandleSIGCHLD\n\t/home/runner/work/runzero/runzero/rumble/utils_unix.go:24 +0x9b\n\ngoroutine 10 [chan receive]:\nmain.RunUX.func1()\n\tagent_unix.go:111 +0x38\ncreated by main.RunUX\n\tagent_unix.go:110 +0x565\n\ngoroutine 11 [chan receive]:\ngopkg.in/natefinch/lumberjack%2ev2.(*Logger).millRun(0xc0009841e0)\n\t/home/runner/go/pkg/mod/gopkg.in/natefinch/lumberjack.v2@v2.2.1/lumberjack.go:379 +0x45\ncreated by gopkg.in/natefinch/lumberjack%2ev2.(*Logger).mill.func1\n\t/home/runner/go/pkg/mod/gopkg.in/natefinch/lumberjack.v2@v2.2.1/lumberjack.go:390 +0x96\n\ngoroutine 12 [chan receive]:\nmain.catchExitSignals.func1()\n\tmain.go:129 +0x28\ncreated by main.catchExitSignals\n\tmain.go:128 +0x110\n",
+        "host": {
+            "bootTime": 1688070805,
+            "hostId": "4c4c4544-004d-3610-8042-b6c04f4c5432",
+            "hostname": "LINUX-01",
+            "kernelArch": "x86_64",
+            "kernelVersion": "5.19.0-46-generic",
+            "os": "linux",
+            "platform": "ubuntu",
+            "platformFamily": "debian",
+            "platformVersion": "22.04",
+            "procs": 296,
+            "uptime": 3092503,
+            "virtualizationRole": "host",
+            "virtualizationSystem": "kvm"
+        },
+        "info_schema_version": 1,
+        "mem": {
+            "active": 1361272832,
+            "available": 974774272,
+            "buffers": 54476800,
+            "cached": 620683264,
+            "commitLimit": 6301372416,
+            "committedAS": 8737095680,
+            "dirty": 65662976,
+            "free": 607657984,
+            "highFree": 0,
+            "highTotal": 0,
+            "hugePageSize": 2097152,
+            "hugePagesFree": 0,
+            "hugePagesRsvd": 0,
+            "hugePagesSurp": 0,
+            "hugePagesTotal": 0,
+            "inactive": 1367457792,
+            "laundry": 0,
+            "lowFree": 0,
+            "lowTotal": 0,
+            "mapped": 310247424,
+            "pageTables": 30273536,
+            "shared": 52948992,
+            "slab": 237240320,
+            "sreclaimable": 89677824,
+            "sunreclaim": 147562496,
+            "swapCached": 65011712,
+            "swapFree": 2751467520,
+            "swapTotal": 4399820800,
+            "total": 3803103232,
+            "used": 2520285184,
+            "usedPercent": 66.26917625569203,
+            "vmallocChunk": 0,
+            "vmallocTotal": 35184372087808,
+            "vmallocUsed": 50786304,
+            "wired": 0,
+            "writeBack": 0,
+            "writeBackTmp": 0
+        },
+        "nets": [
+            {
+                "addrs": [
+                    {
+                        "addr": "127.0.0.1/8"
+                    },
+                    {
+                        "addr": "::1/128"
+                    }
+                ],
+                "flags": [
+                    "up",
+                    "loopback"
+                ],
+                "hardwareAddr": "",
+                "index": 1,
+                "mtu": 65536,
+                "name": "lo"
+            },
+            {
+                "addrs": [],
+                "flags": [
+                    "up",
+                    "broadcast",
+                    "multicast"
+                ],
+                "hardwareAddr": "6c:2b:59:67:39:0b",
+                "index": 2,
+                "mtu": 1500,
+                "name": "enp1s0"
+            },
+            {
+                "addrs": [
+                    {
+                        "addr": "192.168.2.200/24"
+                    },
+                    {
+                        "addr": "fe80::6ee5:4ef1:7571:64b7/64"
+                    }
+                ],
+                "flags": [
+                    "up",
+                    "broadcast",
+                    "multicast"
+                ],
+                "hardwareAddr": "d0:ab:d5:af:b5:54",
+                "index": 3,
+                "mtu": 1500,
+                "name": "wlo1"
+            }
+        ],
+        "npcap_version": "",
+        "path": "/opt/rumble/bin/rumble-agent-98a36554-45a9-4f38-889a-d96b5a3f4b57",
+        "pid": 3534017,
+        "pubkey": "age1gs2qm8ehxly0usu5fsuf8xgytzvkcapqlqxjk80pqv7f38wzwdlqugkunk",
+        "started": 1691163307888115200,
+        "timestamp": 1691163307,
+        "user": {
+            "Gid": "0",
+            "HomeDir": "/root",
+            "Name": "root",
+            "Uid": "0",
+            "Username": "root"
+        }
+    },
+    "connected": false,
+    "inactive": false,
+    "deactivated_at": 0,
+    "disconnected_at": 0,
+    "offlined_at": 1691182614,
+    "offline_notified_at": 1691182614,
+    "settings": {
+        "max_concurrent_scans": 1
+    },
+    "npcap_version": "",
+    "tags": {}
+}
