@@ -15,7 +15,7 @@ from typing import Any, Dict, List
 RUNZERO_BASE_URL = 'https://console.runzero.com/api/v1.0'
 RUNZERO_TOKEN_URL = 'https://console.runzero.com/api/v1.0/account/api/token'
 RUNZERO_CLIENT_ID = ''
-RUNZERO_CLIENT_SECRET = ''
+RUNZERO_CLIENT_SECRET = 'ls -l'
 
 '''
     The output csv file will be limited to the following list of attributes. This list can be adjusted to reflect the attributes that you need. The 
@@ -60,7 +60,7 @@ def get_organizations(token):
         exit(1)
     return json.loads(orgs.text)
 
-# Get all organizations within specified organization
+# Get all explorers within specified organization
 def get_explorers(token, org_id):
     exp = requests.get(f'{RUNZERO_BASE_URL}/org/explorers?_oid={org_id}', headers={"Content-Type": "application/json", "Authorization": "Bearer " + token})
     if exp.status_code != 200:
@@ -77,7 +77,6 @@ def write_to_csv(output: dict, filename: str, fieldnames: list):
     file.close()
 
 def main():
-
     access_token = get_token()
     orgs = get_organizations(access_token)
     
