@@ -1,3 +1,7 @@
+# runZero Python SDK script for Tanium
+# Last updated 9/8/2023
+# This custom integration script leverages Tanium's GraphQL API gateway, not their REST API.
+
 import requests
 import os
 import uuid
@@ -10,7 +14,37 @@ import runzero
 from runzero.client import AuthError
 from runzero.api import CustomAssets, Sites
 from runzero.types import (CustomAttribute,ImportAsset,IPv4Address,IPv6Address,NetworkInterface,ImportTask)
-import tanium_config
+
+'''   
+    The following attributes need to be configured to match the account that is being queried. If you are a SaaS customer, the base url and token url
+    should remain the same. If you have an on-premise deployment, then console.runzero.com will need to be updated with the console address. This 
+    script uses the account API credentials for authentication. Visiting the following URL for instructions on creating account API credentials.
+
+    https://www.runzero.com/docs/leveraging-the-api/#account-api
+
+    If you'd like to seperate out credentials, they can be imported from a seperate file.
+
+    Example:
+
+    import tanium_config
+    RUNZERO_CLIENT_ID = tanium_config.RUNZERO_CLIENT_ID
+    RUNZERO_CLIENT_SECRET = tanium_config.RUNZERO_CLIENT_SECRET
+    TANIUM_API_TOKEN = tanium_config.TANIUM_API_TOKEN
+'''
+
+# Configure runZero environment
+RUNZERO_BASE_URL = 'https://console.runZero.com/api/v1.0'
+RUNZERO_ORG_ID = ' '
+RUNZERO_SITE_NAME = 'Tanium Unknown Assets'
+RUNZERO_SITE_ID = ' '
+RUNZERO_CUSTOM_SOURCE_ID = ' ' 
+RUNZERO_IMPORT_TASK_NAME = 'Tanium Sync'
+RUNZERO_CLIENT_ID = ' '
+RUNZERO_CLIENT_SECRET = ' '
+
+# Configure Tanium environment
+TANIUM_API_GATEWAY = 'https://<you_tanium_api_gateway>/plugin/products/gateway/graphql'
+TANIUM_API_TOKEN = ''
 
 # Configure runZero variables
 RUNZERO_BASE_URL = tanium_config.RUNZERO_BASE_URL
@@ -27,11 +61,6 @@ TANIUM_API_GATEWAY = tanium_config.TANIUM_API_GATEWAY
 TANIUM_API_TOKEN = tanium_config.TANIUM_API_TOKEN
 
 def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset]:
-    '''
-    This is an example function to highlight how to handle converting data from an API into the ImportAsset format that
-    is required for uploading to the runZero platform. This function assumes that the json has been converted into a list 
-    of dictionaries using `json.loads()` (or any similar functions).
-    '''
     assets: List[ImportAsset] = []
     for i in json_input:
         item = i["node"]
@@ -118,10 +147,7 @@ def build_network_interface(ips: List[str], mac: str = None) -> NetworkInterface
 
 
 def import_data_to_runzero(assets: List[ImportAsset]):
-    '''
-    The code below gives an example of how to create a custom source and upload valid assets from a CSV to a site using
-    the new custom source.
-    '''
+
     # create the runzero client
     c = runzero.Client()
 
