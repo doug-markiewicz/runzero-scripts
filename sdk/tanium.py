@@ -46,20 +46,6 @@ RUNZERO_CLIENT_SECRET = ' '
 TANIUM_API_GATEWAY = 'https://<you_tanium_api_gateway>/plugin/products/gateway/graphql'
 TANIUM_API_TOKEN = ''
 
-# Configure runZero variables
-RUNZERO_BASE_URL = tanium_config.RUNZERO_BASE_URL
-RUNZERO_ORG_ID = tanium_config.RUNZERO_ORG_ID
-RUNZERO_SITE_NAME = tanium_config.RUNZERO_SITE_NAME
-RUNZERO_SITE_ID = tanium_config.RUNZERO_SITE_ID
-RUNZERO_CUSTOM_SOURCE_ID = tanium_config.RUNZERO_CUSTOM_SOURCE_ID
-RUNZERO_IMPORT_TASK_NAME = tanium_config.RUNZERO_IMPORT_TASK_NAME
-RUNZERO_CLIENT_ID = tanium_config.RUNZERO_CLIENT_ID
-RUNZERO_CLIENT_SECRET = tanium_config.RUNZERO_CLIENT_SECRET
-
-# Configure Tanium variables
-TANIUM_API_GATEWAY = tanium_config.TANIUM_API_GATEWAY
-TANIUM_API_TOKEN = tanium_config.TANIUM_API_TOKEN
-
 def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset]:
     assets: List[ImportAsset] = []
     for i in json_input:
