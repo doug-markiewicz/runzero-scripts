@@ -1,9 +1,10 @@
-# runZero Custom Integration with LimaCharlie
+# runZero Python SDK script for Lima Charlie
+# Last updated 10/6/2023
+
 # Docs: https://www.runzero.com/docs/integrations-inbound/
 # Docs: https://pypi.org/project/runzero-sdk/ 
 # Docs: https://doc.limacharlie.io/docs/documentation/dec140b42ad78-api-keys
 # Docs: https://doc.limacharlie.io/docs/api/43897cbb915ef-lima-charlie-io-rest-api
-# Prerequisite: pip install runzero-sdk
 
 import requests
 import os
@@ -17,59 +18,78 @@ from runzero.client import AuthError
 from runzero.api import CustomAssets, Sites
 from runzero.types import (CustomAttribute,ImportAsset,IPv4Address,IPv6Address,NetworkInterface,ImportTask)
 
-# Configure runZero variables
-# Script uses pipenv, but os.environ[] can be swapped out for a hardcoded value to make testing easier
-RUNZERO_BASE_URL = 'https://console.runZero.com/api/v1.0'
-RUNZERO_CLIENT_ID = os.environ['RUNZERO_CLIENT_ID']
-RUNZERO_CLIENT_SECRET = os.environ['RUNZERO_CLIENT_SECRET']
-RUNZERO_API_TOKEN = os.environ['RUNZERO_API_TOKEN']
-RUNZERO_ORG_ID = '98828456-f9ee-485d-aff6-11ddc91b2468'
-RUNZERO_CUSTOM_SOURCE_ID = 'cc000d15-0918-4803-80d6-9e86bf6c4dcb' 
-RUNZERO_SITE_NAME = 'LimaCharlie New Assets'
-RUNZERO_SITE_ID = '9914eac7-9899-49cd-a426-d73a98799663'
-RUNZERO_IMPORT_TASK_NAME = 'LimaCharlie Sync'
-RUNZERO_HEADER = {'Authorization': f'Bearer {RUNZERO_API_TOKEN}'}
+'''   
+    The following attributes need to be configured to match the account that is being queried. If you are a SaaS customer, the base url and token url
+    should remain the same. If you have an on-premise deployment, then console.runzero.com will need to be updated with the console address. This 
+    script uses the account API credentials for authentication. Visiting the following URL for instructions on creating account API credentials.
 
-# Configure LimaCharlie variables
-# Script uses pipenv, but os.environ[] can be swapped out for a hardcoded value to make testing easier
+    https://www.runzero.com/docs/leveraging-the-api/#account-api
+
+    If you'd like to seperate out credentials, they can be imported from a seperate file.
+
+    Example:
+
+    import lc_config
+    RUNZERO_CLIENT_ID = lc_config.RUNZERO_CLIENT_ID
+    RUNZERO_CLIENT_SECRET = lc_config.RUNZERO_CLIENT_SECRET
+    LIMACHARLIE_API_KEY = lc_config.LIMACHARLIE_API_KEY
+'''
+
+# Configure runZero environment
+RUNZERO_BASE_URL = 'https://console.runZero.com/api/v1.0'
+RUNZERO_ORG_ID = ' '
+RUNZERO_CUSTOM_SOURCE_ID = ' ' 
+RUNZERO_SITE_NAME = 'LimaCharlie Unknown Assets'
+RUNZERO_SITE_ID = ' '
+RUNZERO_IMPORT_TASK_NAME = 'LimaCharlie Sync'
+RUNZERO_CLIENT_ID = ' '
+RUNZERO_CLIENT_SECRET = ' '
+
+# Configure LimaCharlie environment
 LIMACHARLIE_JWT_URL = 'https://jwt.limacharlie.io/'
 LIMACHARLIE_BASE_URL = 'https://api.limacharlie.io/v1'
-LIMACHARLIE_OID = os.environ['LIMACHARLIE_OID']
-LIMACHARLIE_SECRET = os.environ['LIMACHARLIE_SECRET']
+LIMACHARLIE_OID = ' '
+LIMACHARLIE_API_KEY = ' '
 
 def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset]:
-    '''
-    This is an example function to highlight how to handle converting data from an API into the ImportAsset format that
-    is required for uploading to the runZero platform. This function assumes that the json has been converted into a list 
-    of dictionaries using `json.loads()` (or any similar functions).
-    '''
-
     assets: List[ImportAsset] = []
     for item in json_input:
         # grab known API attributes from the json dict that are always present
         sensor_oid = item.get('oid', uuid.uuid4)
         sensor_hostname = item.get('hostname', '')
-        sensor_mac = item.get('mac_addr', [])
-        sensor_int_ip = item.get('int_ip', '')
+        sensor_macs = item.get('mac_addr', [])
+        sensor_address = item.get('int_ip', '')
 
-        # if multiple mac addresses, take the first one
-        if len(sensor_mac) > 0:
-           mac = sensor_mac[0].replace('-', ':')
+        # create network interfaces
+        networks = []
+        if len(sensor_macs) > 0 and isinstance(sensor_macs, list):
+            for mac in sensor_macs:
+                if len(mac) <= 23:
+                    network = build_network_interface(ips=[sensor_address], mac=mac)
+                    networks.append(network)
+                else:
+                    network = build_network_interface(ips=[sensor_address], mac=None)
+                    networks.append(network)
         else:
-           mac = None
+            network = build_network_interface(ips=[sensor_address], mac=None)
+            networks.append(network)
 
-        # create the network interface
-        network = build_network_interface(ips=[sensor_int_ip], mac=sensor_mac)
-
-        # *** Should not need to touch this ***
         # handle any additional values and insert into custom_attrs
         custom_attrs: Dict[str, CustomAttribute] = {}
+
+        root_keys_to_ignore = []
         for key, value in item.items():
-            if isinstance(value, dict):
-                for k, v in value.items():
-                    custom_attrs[k] = CustomAttribute(str(v)[:1023])
-            else:
-               custom_attrs[key] = CustomAttribute(str(value))
+            if not isinstance(value, dict):
+                root_keys_to_ignore.append(key)
+
+        flattened_items = flatten(nested_dict=item,
+                                  root_keys_to_ignore=root_keys_to_ignore)
+
+        item = flattened_items | item
+
+        for key, value in item.items():
+            if not isinstance(value, dict):
+                custom_attrs[key] = CustomAttribute(str(value)[:1023])
 
         # Build assets for import
         assets.append(
@@ -78,7 +98,6 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
                 network_interfaces=[network],
                 hostnames=[sensor_hostname],
                 customAttributes=custom_attrs
-
             )
         )
     return assets
@@ -127,20 +146,6 @@ def import_data_to_runzero(assets: List[ImportAsset]):
         print(f'unable to find requested site')
         return
 
-
-    # (Optional)
-    # Check for custom integration source in runZero and create new one if it doesn't exist
-    # You can create one manually within the UI and hardcode RUNZERO_CUSTOM_SOURCE_ID
-    '''
-    custom_source_mgr = CustomSourcesAdmin(c)
-    my_asset_source = custom_source_mgr.get(name='fortiedr')
-    if my_asset_source:
-        source_id = my_asset_source.id
-    else:
-        my_asset_source = custom_source_mgr.create(name='fortiedr')
-        source_id = my_asset_source.id
-    '''
-
     # create the import manager to upload custom assets
     import_mgr = CustomAssets(c)
     import_task = import_mgr.upload_assets(org_id=RUNZERO_ORG_ID, site_id=RUNZERO_SITE_ID, custom_integration_id=RUNZERO_CUSTOM_SOURCE_ID, assets=assets, task_info=ImportTask(name=RUNZERO_IMPORT_TASK_NAME))
@@ -148,19 +153,14 @@ def import_data_to_runzero(assets: List[ImportAsset]):
     if import_task:
         print(f'task created! view status here: https://console.runzero.com/tasks?task={import_task.id}')
 
-
 def main():
 
-    # Build JWT request URL
-    jwt_url = f'{LIMACHARLIE_JWT_URL}?oid={LIMACHARLIE_OID}&secret={LIMACHARLIE_SECRET}'
-
-    # Request JWT
+    # Request and parse JSON web token
+    jwt_url = f'{LIMACHARLIE_JWT_URL}?oid={LIMACHARLIE_OID}&secret={LIMACHARLIE_API_KEY}'
     jwt = requests.post(jwt_url, '')
-
-    # Parse JSON object to native python object
     token = jwt.json()
 
-    # Request sensor list
+    # Request Lima Charlie sensor list
     lima_charlie_token = token['jwt']
     api_header = {'Authorization': f'Bearer {lima_charlie_token}'}
     api_url = f'{LIMACHARLIE_BASE_URL}/sensors/{LIMACHARLIE_OID}'
