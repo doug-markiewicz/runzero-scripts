@@ -47,7 +47,7 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
     assets: List[ImportAsset] = []
     for item in json_input:
         # grab known API attributes from the json dict that are always present
-        sensor_oid = item.get('oid', uuid.uuid4)
+        sensor_id = item.get('sid', uuid.uuid4)
         sensor_hostname = item.get('hostname', '')
         sensor_mac = item.get('mac_addr', [])
         sensor_int_ip = item.get('int_ip', '')
@@ -74,7 +74,7 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
         # Build assets for import
         assets.append(
             ImportAsset(
-                id=sensor_oid,
+                id=sensor_id,
                 network_interfaces=[network],
                 hostnames=[sensor_hostname],
                 customAttributes=custom_attrs
