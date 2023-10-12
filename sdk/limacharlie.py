@@ -57,22 +57,15 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
         # grab known API attributes from the json dict that are always present
         sensor_oid = item.get('oid', uuid.uuid4)
         sensor_hostname = item.get('hostname', '')
-        sensor_macs = item.get('mac_addr', [])
+        sensor_mac = item.get('mac_addr', '')
         sensor_address = item.get('int_ip', '')
 
-        # create network interfaces
-        networks = []
-        if len(sensor_macs) > 0 and isinstance(sensor_macs, list):
-            for mac in sensor_macs:
-                if len(mac) <= 23:
-                    network = build_network_interface(ips=[sensor_address], mac=mac)
-                    networks.append(network)
-                else:
-                    network = build_network_interface(ips=[sensor_address], mac=None)
-                    networks.append(network)
+        # create network interface
+        if len(sensor_mac) > 0:
+            mac = sensor_mac.replace("-",":")
+            network = build_network_interface(ips=[sensor_address], mac=mac)
         else:
             network = build_network_interface(ips=[sensor_address], mac=None)
-            networks.append(network)
 
         # handle any additional values and insert into custom_attrs
         custom_attrs: Dict[str, CustomAttribute] = {}
