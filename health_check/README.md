@@ -18,8 +18,8 @@ I'm not really a good coder. Don't judge.
 
     ```
     RUNZERO_BASE_URL = 'https://console.runzero.com/api/v1.0'
-    RUNZERO_CLIENT_ID
-    RUNZERO_CLIENT_SECRET
+    RUNZERO_CLIENT_ID = 'XXX'
+    RUNZERO_CLIENT_SECRET = 'XXX'
     ```
 
   NOTE: If you are hosting runZero on-premise, then you will need to update the base URL accordingly. 
