@@ -15,9 +15,12 @@ I'm not really a good coder. Don't judge.
 ## Configuration
 1. [Configure client ID and secret in runZero](https://help.runzero.com/docs/leveraging-the-api/#api-client-credentials).
 1. Add the following variables to your .env file
-  * RUNZERO_BASE_URL = 'https://console.runzero.com/api/v1.0'
-  * RUNZERO_CLIENT_ID
-  * RUNZERO_CLIENT_SECRET
+
+    '''
+    RUNZERO_BASE_URL = 'https://console.runzero.com/api/v1.0'
+    RUNZERO_CLIENT_ID
+    RUNZERO_CLIENT_SECRET
+    '''
 
   NOTE: If you are hosting runZero on-premise, then you will need to update the base URL accordingly. 
 
