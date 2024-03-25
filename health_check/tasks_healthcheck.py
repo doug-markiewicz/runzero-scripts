@@ -358,11 +358,6 @@ def tasks_healthcheck():
         f.write('  scanned tasks                                 : ' + str(metric_tasks_scanned) + '\n')
         f.write('  stopped tasks                                 : ' + str(metric_tasks_stopped) + '\n')
         f.write('\n')
-        f.write('task errors (last 1000 tasks):\n')
-        f.write('\n')
-        for key, value in error_list.items():
-            f.write('  ' + key + ' (' + str(value) + ')\n')
-        f.write('\n')
         f.write('recurring task metrics:\n')
         f.write('\n')   
         f.write('  total recurring tasks                         : ' + str(metric_tasks_recurring) + '\n')
@@ -374,6 +369,11 @@ def tasks_healthcheck():
         f.write('  recurring scan tasks                          : ' + str(metric_recurring_tasks_scan) + '\n')
         f.write('  recurring scan tasks using template           : ' + str(metric_recurring_tasks_using_template) + '\n')        
         f.write('\n')
+        f.write('task errors (last 1000 tasks):\n')
+        f.write('\n')
+        for key, value in error_list.items():
+            f.write('  ' + key + ' (' + str(value) + ')\n')
+        f.write('\n')        
 
     print('Task metrics appended to ' + os.getcwd() + '/' + metrics_output_file)
     print('Task details saved to ' + os.getcwd() + '/' + task_output_file)
