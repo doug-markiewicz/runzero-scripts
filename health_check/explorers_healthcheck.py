@@ -182,14 +182,18 @@ def explorers_healthcheck():
                     'mem_usedPercent':item.get('system_info', {}).get('mem', {}).get('usedPercent', '')
             })
         
-    DATA_DIRECTORY = 'data_' + date.today().strftime("%Y%m%d") + '_' + client_id
+    DATA_DIRECTORY = 'data/' + date.today().strftime("%Y%m%d") + '_' + client_id
 
-    # Check that the output folder exists
+    # Check that the data directory exists
+    if not os.path.isdir('data'):
+        os.mkdir('data')
+
+    # Check that the output directory exists
     if not os.path.isdir(DATA_DIRECTORY):
         os.mkdir(DATA_DIRECTORY)
 
     metrics_output_file = DATA_DIRECTORY + '/metrics.txt'
-    explorers_output_file = DATA_DIRECTORY + '/explorers_output_' + str(datetime.now().strftime('%Y%m%dT%H%M%S')) + '.csv'
+    explorers_output_file = DATA_DIRECTORY + '/explorers_output.csv'
 
     write_to_csv(output=explorers_output, filename=explorers_output_file, fieldnames=fields)
 

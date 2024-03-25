@@ -131,8 +131,8 @@ def tasks_healthcheck():
         "recv_bytes"
     ]    
 
-    recur_task_output = []
-    recur_task_fields = [
+    task_recur_output = []
+    task_recur_fields = [
         "organization_name",
         "organization_id",
         "id",
@@ -293,7 +293,7 @@ def tasks_healthcheck():
         if item.get('template_id') != '00000000-0000-0000-0000-000000000000':
             metric_recurring_tasks_using_template += 1
 
-        recur_task_output.append({
+        task_recur_output.append({
             'organization_name':item.get('organization_name', ''),
             'organization_id':item.get('organization_id',''),
             'id':item.get('id',''),
@@ -318,18 +318,22 @@ def tasks_healthcheck():
             'rate':item.get('rate','')       
         })
 
-    DATA_DIRECTORY = 'data_' + date.today().strftime("%Y%m%d") + '_' + client_id
+    DATA_DIRECTORY = 'data/' + date.today().strftime("%Y%m%d") + '_' + client_id
+
+    # Check that the data directory exists
+    if not os.path.isdir('data'):
+        os.mkdir('data')
 
     # Check that the output folder exists
     if not os.path.isdir(DATA_DIRECTORY):
         os.mkdir(DATA_DIRECTORY)
 
     metrics_output_file = DATA_DIRECTORY + '/metrics.txt'
-    task_output_file = DATA_DIRECTORY + '/tasks_output_' + str(datetime.now().strftime('%Y%m%dT%H%M%S')) + '.csv'
-    recur_task_output_file = DATA_DIRECTORY + '/recur_tasks_output_' + str(datetime.now().strftime('%Y%m%dT%H%M%S')) + '.csv'
+    task_output_file = DATA_DIRECTORY + '/tasks_output.csv'
+    task_recur_output_file = DATA_DIRECTORY + '/tasks_recur_output.csv'
 
     # write tasks output file
-    write_to_csv(output=recur_task_output, filename=recur_task_output_file, fieldnames=recur_task_fields)    
+    write_to_csv(output=task_recur_output, filename=task_recur_output_file, fieldnames=task_recur_fields)    
     write_to_csv(output=task_output, filename=task_output_file, fieldnames=task_fields)
 
     # write metrics
@@ -376,7 +380,7 @@ def tasks_healthcheck():
 
     print('Task metrics appended to ' + os.getcwd() + '/' + metrics_output_file)
     print('Task details saved to ' + os.getcwd() + '/' + task_output_file)
-    print('Recurring task details saved to ' + os.getcwd() + '/' + recur_task_output_file)    
+    print('Recurring task details saved to ' + os.getcwd() + '/' + task_recur_output_file)    
 
 if __name__ == '__main__':
     tasks_healthcheck()
