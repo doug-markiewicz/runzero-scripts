@@ -24,13 +24,21 @@ I'm not really a good coder. Don't judge.
 
   NOTE: If you are hosting runZero on-premise, then you will need to update the base URL accordingly. 
 
+## Known issues
+* Connector tasks that are configured to run on local explorers are currently reflected as scan tasks in the metrics.
+
 ## To do list
-* Figure out a way to enumerate what connector tasks are configured
+* Update logic to appropriately identify and report on connector tasks that run on explorers
+* Figure out a way to enumerate what connector tasks are configured (e.g. edr, vm, mdm, etc.)
 * Update explorer script to pull version information from API endpoint instead of metadata file
 * Pull names for all UUID things for data exports (e.g. explorers, tasks, templates, etc.)
 * Add option to pass arguments vs. configuring a .env file
-* Improve formatting of metrics file
+* ~~Improve formatting of metrics file~~
 
 ## Change log
+* 2024-03-25
+  * Updated filenames and path for output files
+  * Updated formatting of metrics.txt output file
+
 * 2024-03-22
   * Published initial explorer and task health check scripts
