@@ -199,7 +199,7 @@ def explorers_healthcheck():
 
     with open(metrics_output_file, 'a') as f:
 
-        f.write('explorer metrics: ' + datetime.now().strftime('%m/%d/%Y, %H:%M:%S') + '\n')
+        f.write('explorer metrics                                : ' + datetime.now().strftime('%m/%d/%Y, %H:%M:%S') + '\n')
         f.write('\n')
         f.write('  latest explorer version                       : ' + current_version + '\n')
         f.write('  recommended explorer memory                   : ' + str(recommended_explorer_memory_GiB) + ' GiB (' + str(recommended_explorer_memory_bytes) + 'bytes)\n')
