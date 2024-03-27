@@ -4,7 +4,7 @@
 These scripts will gather a variety of metrics related to a runZero deployment and export data that can be used to review the health of a deployment. Each script can be run independently or you can use run.py to run through all available scripts. 
 
 ## Disclaimer
-I'm not really a good coder. Don't judge.
+I'm not a good coder. Don't judge.
 
 ## Requirements
 * runZero client ID and secret
@@ -32,7 +32,7 @@ I'm not really a good coder. Don't judge.
 * Figure out a way to enumerate what connector tasks are configured (e.g. edr, vm, mdm, etc.)
 * Update explorer script to pull version information from API endpoint instead of metadata file
 * Pull names for all UUID things for data exports (e.g. explorers, tasks, templates, etc.)
-* Add basic asset inventory data quality checks
+* Add basic asset inventory data quality checks (e.g. assets missing OS, mac addr, etc.)
 * Add option to pass arguments vs. configuring a .env file
 * Add option to run health check on a single organization vs. an account
 * ~~Improve formatting of metrics file~~
