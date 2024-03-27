@@ -27,13 +27,18 @@ I'm not really a good coder. Don't judge.
 ## Known issues
 * Connector tasks that are configured to run on local explorers are currently reflected as scan tasks in the metrics.
 
-## To do list
+## Short-term to do list
 * Update logic to appropriately identify and report on connector tasks that run on explorers
 * Figure out a way to enumerate what connector tasks are configured (e.g. edr, vm, mdm, etc.)
 * Update explorer script to pull version information from API endpoint instead of metadata file
 * Pull names for all UUID things for data exports (e.g. explorers, tasks, templates, etc.)
+* Add basic asset inventory data quality checks
 * Add option to pass arguments vs. configuring a .env file
+* Add option to run health check on a single organization vs. an account
 * ~~Improve formatting of metrics file~~
+
+## Longer term roadmap
+* Combine metrics and data exports into a single report (likely a multi-tab .xlsx)
 
 ## Change log
 * 2024-03-25
