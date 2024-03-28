@@ -126,61 +126,63 @@ def explorers_healthcheck():
     ]
 
     for o in orgs:
-        metric_org_count += 1
-        org_id = o.get('id', '')
-        org_name = o.get('name', '')
+        demo = o.get('demo', '')
+        if not demo:
+            metric_org_count += 1
+            org_id = o.get('id', '')
+            org_name = o.get('name', '')
 
-        explorers = (get_explorers(access_token, org_id))
-        explorers_json = explorers.json()      
+            explorers = (get_explorers(access_token, org_id))
+            explorers_json = explorers.json()      
 
-        for item in explorers_json:
+            for item in explorers_json:
 
-            # Calculate explorer metrics
-            metric_explorer_count += 1
+                # Calculate explorer metrics
+                metric_explorer_count += 1
 
-            if current_version in item.get('version', ''):
-                metric_up_to_date_explorers +=1
-            else:
-                metric_out_of_date_explorers += 1
+                if current_version in item.get('version', ''):
+                    metric_up_to_date_explorers +=1
+                else:
+                    metric_out_of_date_explorers += 1
 
-            if item.get('connected', ''):
-                metric_online_explorers += 1
-            else:
-                metric_offline_explorers += 1
-            
-            if item.get('system_info', {}).get('attributes', {}).get('CanScreenshot', '') == 'true':
-                metric_supports_screenshots += 1
-            
-            if item.get('system_info', {}).get('mem', {}).get('total', '') < recommended_explorer_memory_bytes:
-                metric_memory_allocation += 1
+                if item.get('connected', ''):
+                    metric_online_explorers += 1
+                else:
+                    metric_offline_explorers += 1
+                
+                if item.get('system_info', {}).get('attributes', {}).get('CanScreenshot', '') == 'true':
+                    metric_supports_screenshots += 1
+                
+                if item.get('system_info', {}).get('mem', {}).get('total', '') < recommended_explorer_memory_bytes:
+                    metric_memory_allocation += 1
 
-            # Check if passive sampling is configured for explorer
-            explorer_id = item.get('id', '')
-            passive = check_passive(access_token, explorer_id)
-            if passive:
-                metric_passive_sampling += 1
+                # Check if passive sampling is configured for explorer
+                explorer_id = item.get('id', '')
+                passive = check_passive(access_token, explorer_id)
+                if passive:
+                    metric_passive_sampling += 1
 
-            # Append explorer details to output file
-            explorers_output.append({
-                    'organization_name':org_name,
-                    'name':item.get('name', ''),
-                    'id':explorer_id,
-                    'last_checkin':item.get('last_checkin', ''),
-                    'last_checkin':datetime.fromtimestamp(item.get('last_checkin', '')).strftime('%Y-%m-%d %H:%M:%S'), # Converts epoch to readable date time format
-                    'arch':item.get('arch', ''),
-                    'os':item.get('os',''),
-                    'version':item.get('version', ''),
-                    'path':item.get('system_info', {}).get('path', ''),
-                    'external_ip':item.get('external_ip', ''),
-                    'internal_ip':item.get('internal_ip', ''),
-                    'passive_sampling':passive,
-                    'max_concurrent_scans':item.get('settings', {}).get('max_concurrent_scans', ''),
-                    'attributes_CanScreenshot':item.get('system_info', {}).get('attributes', {}).get('CanScreenshot', ''),
-                    'connected':item.get('connected', ''),
-                    'inactive':item.get('inactive', ''),
-                    'mem_total':item.get('system_info', {}).get('mem', {}).get('total', ''),
-                    'mem_usedPercent':item.get('system_info', {}).get('mem', {}).get('usedPercent', '')
-            })
+                # Append explorer details to output file
+                explorers_output.append({
+                        'organization_name':org_name,
+                        'name':item.get('name', ''),
+                        'id':explorer_id,
+                        'last_checkin':item.get('last_checkin', ''),
+                        'last_checkin':datetime.fromtimestamp(item.get('last_checkin', '')).strftime('%Y-%m-%d %H:%M:%S'), # Converts epoch to readable date time format
+                        'arch':item.get('arch', ''),
+                        'os':item.get('os',''),
+                        'version':item.get('version', ''),
+                        'path':item.get('system_info', {}).get('path', ''),
+                        'external_ip':item.get('external_ip', ''),
+                        'internal_ip':item.get('internal_ip', ''),
+                        'passive_sampling':passive,
+                        'max_concurrent_scans':item.get('settings', {}).get('max_concurrent_scans', ''),
+                        'attributes_CanScreenshot':item.get('system_info', {}).get('attributes', {}).get('CanScreenshot', ''),
+                        'connected':item.get('connected', ''),
+                        'inactive':item.get('inactive', ''),
+                        'mem_total':item.get('system_info', {}).get('mem', {}).get('total', ''),
+                        'mem_usedPercent':item.get('system_info', {}).get('mem', {}).get('usedPercent', '')
+                })
         
     DATA_DIRECTORY = 'data/' + date.today().strftime("%Y%m%d") + '_' + client_id
 
