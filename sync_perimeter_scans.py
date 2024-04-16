@@ -26,7 +26,7 @@ SAAS_ORG_ID = '98828456-f9ee-485d-aff6-11ddc91b2468'
 SAAS_SITE_ID = 'd3cb8226-f531-41a6-a334-a0bb7e981460'
 SAAS_BASE_URL = 'console.runzero.com'
 SAAS_ORG_TOKEN = os.getenv('SAAS_ORG_TOKEN')
-SAAS_TASK_SEARCH_FILTER = 'name:="Perimeter Scan - Daily" and status:"Processed" and updated_at:<7days'
+SAAS_TASK_SEARCH_FILTER = 'name:="Perimeter Scan - Daily" and status:"Processed" and updated_at:<24hours'
 
 '''
 The folowing parameters determine clean-up behavior following the sync. 
