@@ -1,7 +1,8 @@
 # sync_perimeter_scans.py
 #
 # This script is intended for self-hosted customers that want to leverage hosted explorers for perimeter scans. It will pull perimeter scans 
-# from the configured SaaS instance and import them into the configured self-hosted instance.
+# from the configured SaaS instance and import them into the configured self-hosted instance. Scan data files are temporarily stored on the
+# local file system in the same path as the script. This script will also create a log file in the same path as the script.
 #
 # Instructions:
 #     1) Set SaaS environment parameters
@@ -124,11 +125,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
