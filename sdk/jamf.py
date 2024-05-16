@@ -1,9 +1,11 @@
 # runZero Python SDK script for Jamf
 # Last updated 5/16/2024
 
-# This script leverages Jamf's PRO API.
-#    https://yourServer.jamfcloud.com/api/v1/computers-inventory
-#    https://developer.jamf.com/jamf-pro/reference/get_v1-computers-inventory-detail-id
+# This script leverages the following Jamf PRO API endpoints.
+#    /api/v1/auth/token
+#    /api/v1/auth/keep-alive
+#    /api/v1/computers-inventory
+#    /api/v1/computers-inventory-detail/
 
 from dotenv import load_dotenv
 import logging
