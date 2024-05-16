@@ -1,3 +1,10 @@
+# runZero Python SDK script for Jamf
+# Last updated 5/16/2024
+
+# This script leverages Jamf's PRO API.
+#    https://yourServer.jamfcloud.com/api/v1/computers-inventory
+#    https://developer.jamf.com/jamf-pro/reference/get_v1-computers-inventory-detail-id
+
 from dotenv import load_dotenv
 import logging
 from logging.handlers import RotatingFileHandler
@@ -155,7 +162,10 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
 
         for key, value in item.items():
             if not isinstance(value, dict) and value is not None:
-                if 'extensionAttributes' not in key and 'contentCaching' not in key: # Ignore noisy low value attributes
+                if ('extensionAttributes' not in key and 
+                    'contentCaching' not in key and
+                    'storage' not in key and 
+                    'packageReceipts' not in key): 
                     custom_attrs[key] = str(value)[:1023]
 
         assets.append(
