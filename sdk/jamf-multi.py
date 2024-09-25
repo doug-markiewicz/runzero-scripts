@@ -1,14 +1,7 @@
-# runZero Python SDK script for Jamf
-# Last updated 5/16/2024
-
-# This script leverages the following Jamf PRO API endpoints.
-#    /api/v1/auth/token
-#    /api/v1/auth/keep-alive
-#    /api/v1/computers-inventory
-#    /api/v1/computers-inventory-detail/
-
 from dotenv import load_dotenv
 import logging
+import aiohttp
+import asyncio
 from logging.handlers import RotatingFileHandler
 import requests
 import os
@@ -39,6 +32,7 @@ RUNZERO_CLIENT_ID = os.getenv('RUNZERO_CLIENT_ID')
 RUNZERO_CLIENT_SECRET = os.getenv('RUNZERO_CLIENT_SECRET')
 RUNZERO_CUSTOM_SOURCE_ID = os.getenv('RUNZERO_CUSTOM_SOURCE_ID') 
 RUNZERO_ORG_TOKEN = os.getenv('RUNZERO_ORG_TOKEN')
+RUNZERO_CUSTOM_SOURCE_ID = os.getenv('RUNZERO_CUSTOM_SOURCE_ID') 
 RUNZERO_IMPORT_TASK_NAME = os.getenv('RUNZERO_IMPORT_TASK_NAME')
 
 # configure jamf environment
@@ -46,12 +40,14 @@ JAMF_ID = os.getenv('JAMF_ID')
 JAMF_SECRET = os.getenv('JAMF_SECRET')
 JAMF_URL = os.getenv('JAMF_URL')
 
-#configure logging
+# configure logging
 logger = logging.getLogger("runzero_logger")
 logger.setLevel(logging.INFO)
-formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+formatter = logging.Formatter(
+    fmt="%(asctime)s %(levelname)-8s %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
+)
 
-file_handler = RotatingFileHandler("jamf.log", maxBytes=5*1024*1024, backupCount=0)
+file_handler = RotatingFileHandler("jamf.log", maxBytes=5 * 1024 * 1024, backupCount=0)
 file_handler.setFormatter(formatter)
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
@@ -61,10 +57,11 @@ console_handler.setFormatter(formatter)
 console_handler.setLevel(logging.INFO)
 logger.addHandler(console_handler)
 
+
 def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset]:
     """
     This function parses data from integration source and builds asset records for import into runZero
-    """    
+    """
     assets: List[ImportAsset] = []
     for item in json_input:
         # grab known API attributes from the json dict that are always present
@@ -79,12 +76,12 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
                 platform = item.get("general", {}).get("platform", "")
                 if platform == "Mac":
                     os_name = "macOS"
-            
+
             os_version = item.get("operatingSystem", {}).get("version", "")
             if os_version == None:
-                os = f'{os_name}'      
+                os = f"{os_name}"
             else:
-                os = f'{os_name} {os_version}'     
+                os = f"{os_name} {os_version}"
 
         # parse hardware details
         macs = []
@@ -157,16 +154,20 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
         for key, value in item.items():
             if not isinstance(value, dict) and value is not None:
                 root_keys_to_ignore.append(key)
-        
-        flattened_items = flatten(nested_dict=item, root_keys_to_ignore=root_keys_to_ignore)
+
+        flattened_items = flatten(
+            nested_dict=item, root_keys_to_ignore=root_keys_to_ignore
+        )
         item = flattened_items | item
 
         for key, value in item.items():
             if not isinstance(value, dict) and value is not None:
-                if ('extensionAttributes' not in key and 
-                    'contentCaching' not in key and
-                    'storage' not in key and 
-                    'packageReceipts' not in key): 
+                if (
+                    "extensionAttributes" not in key
+                    and "contentCaching" not in key
+                    and "storage" not in key
+                    and "packageReceipts" not in key
+                ):
                     custom_attrs[key] = str(value)[:1023]
 
         assets.append(
@@ -184,6 +185,7 @@ def build_assets_from_json(json_input: List[Dict[str, Any]]) -> List[ImportAsset
         )
 
     return assets
+
 
 # should not need to change on a per integraton basis
 def build_network_interface(ips: List[str], mac: str = None) -> NetworkInterface:
@@ -251,61 +253,97 @@ def import_data_to_runzero(assets: List[ImportAsset]):
         task_info=ImportTask(name="JAMF Sync"),
     )
     if import_task:
-        logger.info(f"Task created! View status here: https://console.runzero.com/tasks?task={import_task.id}")
+        logger.info(
+            f"Task created! View status here: https://console.runzero.com/tasks?task={import_task.id}"
+        )
+
 
 def get_token():
     url = JAMF_URL + "/api/v1/auth/token"
-    headers = {'Accept': 'application/json'}
+    headers = {"Accept": "application/json"}
     response = requests.post(url=url, headers=headers, auth=(JAMF_ID, JAMF_SECRET))
     if response.status_code != 200:
-        logger.error(f'Unable to retrieve API token. HTTP response code {response.status_code} received from {url}')
+        logger.error(
+            f"Unable to retrieve API token. HTTP response code {response.status_code} received from {url}"
+        )
         exit(1)
     else:
-        logger.info(f'Successfully retrieved API token. HTTP response code {response.status_code} received from {url}')
-        return response
+        logger.info(
+            f"Successfully retrieved API token. HTTP response code {response.status_code} received from {url}"
+        )
+        return response.json()
+
 
 def token_about_to_expire(bearer_token_expiration, threshold_seconds=180):
-    expiration_time = datetime.strptime(bearer_token_expiration, "%Y-%m-%dT%H:%M:%S.%fZ")
+    expiration_time = datetime.strptime(
+        bearer_token_expiration, "%Y-%m-%dT%H:%M:%S.%fZ"
+    )
     current_time = datetime.now(timezone.utc).replace(tzinfo=None)
     time_difference = abs(expiration_time - current_time)
     threshold = timedelta(seconds=threshold_seconds)
-    logger.debug(f'Token expiration time: {expiration_time} current_time: {current_time} time_difference: {time_difference} threshold: {threshold}')
+    logger.debug(
+        f"Token expiration time: {expiration_time} current_time: {current_time} time_difference: {time_difference} threshold: {threshold}"
+    )
     return time_difference <= threshold
 
+
 def token_keep_alive(bearer_token):
-    url = JAMF_URL + "/api/v1/auth/keep-alive"
-    headers = {"Authorization": f"Bearer {bearer_token}"} 
+    url = JAMF_URL + "/api/auth/keep-alive"
+    headers = {"Authorization": f"Bearer {bearer_token}"}
     response = requests.post(url=url, headers=headers)
     if response.status_code != 200:
-        logger.error(f'Unable to retrieve API token. HTTP response code {response.status_code} received from {url}')
+        logger.error(
+            f"Unable to retrieve API token. HTTP response code {response.status_code} received from {url}"
+        )
         exit(1)
     else:
-        logger.info(f'Successfully retrieved API token. HTTP response code {response.status_code} received from {url}')
+        logger.info(
+            f"Successfully retrieved API token. HTTP response code {response.status_code} received from {url}"
+        )
         return response
-        
-def get_endpoints(token):
+
+
+async def get_extra_info(session, headers, url):
+    async with session.get(url, headers=headers) as resp:
+        if resp.status != 200:
+            logger.error(
+                f"Unable to retrieve endpoint details. HTTP response code {resp.status} received from {url}"
+            )
+            exit(1)
+        else:
+            extra = await resp.json()
+
+        return extra
+
+async def get_endpoints(token):
     hasNextPage = True
     page = 0
     page_size = 100
     endpoints = []
-    
-    bearer_token = token.json().get('token')
-    bearer_token_expiration = token.json().get('expires')
+
+    bearer_token = token.get("token")
+    bearer_token_expiration = token.get("expires")
 
     # Get asset records from Jamf
     while hasNextPage:
         if token_about_to_expire(bearer_token_expiration):
-            logger.info('Token is about to expire. Token expiration: {bearer_token_expiration}. Requesting new token.')
+            logger.info(
+                "Token is about to expire. Token expiration: {bearer_token_expiration}. Requesting new token."
+            )
             token = token_keep_alive(bearer_token)
-            bearer_token = token.json().get('token')
-            bearer_token_expiration = token.json().get('expires')
+            bearer_token = token.get("token")
+            bearer_token_expiration = token.get("expires")
 
         url = JAMF_URL + "/api/v1/computers-inventory"
         headers = {"Authorization": f"Bearer {bearer_token}"}
-        computers = requests.get(url=url, headers=headers, params={"page": page, "page-size": page_size})
+        computers = requests.get(
+            url=url, headers=headers, params={"page": page, "page-size": page_size}
+        )
 
         if computers.status_code != 200:
-            logger.error(f'Unable to retrieve endpoints. HTTP response code {computers.status_code} received from {url}')
+            logger.error(
+                f"Unable to retrieve endpoints. HTTP response code {computers.status_code} received from {url}"
+            )
             exit(1)
 
         results = computers.json().get("results", [])
@@ -313,11 +351,13 @@ def get_endpoints(token):
 
         if len(results) > 0:
             total_count = computers.json().get("totalCount", 0)
-            logger.info(f'Successfully downloaded {count} records of {total_count} total records from {url}')
+            logger.info(
+                f"Successfully downloaded {count} records of {total_count} total records from {url}"
+            )
             endpoints.extend(results)
             page += 1
-        else: 
-            logger.info(f'No records downloaded on last call to {url}')
+        else:
+            logger.info(f"No records downloaded on last call to {url}")
             hasNextPage = False
 
     # Get additional details regarding each asset record
@@ -325,52 +365,43 @@ def get_endpoints(token):
 
     asset_count = 0
     asset_chunk = 0
-    for e in endpoints:
-        if asset_count == 0 or (asset_count % 100) == 0:
-            if (total_count - asset_count) >= 100:  
-                asset_chunk = asset_count  + 100
-                asset_count += 1
-                logger.info(f'Retrieving computer inventory details for assets {asset_count} to {asset_chunk} (this may take a while)')
-            elif (total_count - asset_count) < 100 and (asset_count % 100) == 0:
-                asset_count += 1
-                logger.info(f'Retrieving computer inventory details for assets {asset_count} to {total_count}')
-        else:
-            asset_count += 1
+    endpoints_final = []
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        for e in endpoints:
+            uid = e.get("id", "")
+            if uid:
+                # Renew token if its close to expiring
+                if token_about_to_expire(bearer_token_expiration):
+                    logger.info(
+                        f"Token is about to expire. Token expiration: {bearer_token_expiration}. Requesting new token."
+                    )
+                    token = token_keep_alive(bearer_token)
+                    bearer_token = token.get("token")
+                    bearer_token_expiration = token.get("expires")
 
-        uid = e.get("id", "")
-        if uid:
-            # Renew token if its close to expiring 
-            if token_about_to_expire(bearer_token_expiration):
-                logger.info(f'Token is about to expire. Token expiration: {bearer_token_expiration}. Requesting new token.')
-                token = token_keep_alive(bearer_token)
-                bearer_token = token.json().get('token')
-                bearer_token_expiration = token.json().get('expires')
+                headers = {"Authorization": f"Bearer {bearer_token}"}
 
-            headers = {"Authorization": f"Bearer {bearer_token}"}
-            url = JAMF_URL + f"/api/v1/computers-inventory-detail/{uid}"
+                url = JAMF_URL + f"/api/v1/computers-inventory-detail/{uid}"
+                tasks.append(
+                    asyncio.ensure_future(get_extra_info(session, headers, url))
+                )
 
-            endpoint_details = requests.get(url=url, headers=headers)
+                endpoints_final = await asyncio.gather(*tasks)
+    
+    return endpoints_final
 
-            if endpoint_details.status_code != 200:
-                logger.error(f'Unable to retrieve endpoint details. HTTP response code {endpoint_details.status_code} received from {url}')
-                exit(1)
-            else:
-                endpoint_details_json = endpoint_details.json()
-                e.update(endpoint_details_json)
-                endpoints_all.append(e) 
 
-    return endpoints_all
-
-def main():
+async def main():
     token = get_token()
-    jamf_endpoints = get_endpoints(token)
+    jamf_endpoints = await get_endpoints(token)
     if len(jamf_endpoints) > 0:
-        logger.info('Building assets from json to import into runZero')
+        logger.info("Building assets from json to import into runZero")
         runzero_assets = build_assets_from_json(jamf_endpoints)
-        logger.info('Importing assets into runZero')
+        logger.info("Importing assets into runZero")
         import_data_to_runzero(runzero_assets)
     else:
-        logger.info('No endpoints to upload')
+        logger.info("No endpoints to upload")
 
-if __name__ == '__main__':
-    main()
+
+asyncio.run(main())
