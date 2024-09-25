@@ -22,15 +22,6 @@ def get_token():
         token_json = json.loads(token_response.text)
         return token_json['access_token']    
 
-# Get client id
-def get_client_id(token):
-    account = requests.get(f'{RUNZERO_BASE_URL}/account/orgs', headers={"Content-Type": "application/json", "Authorization": "Bearer " + token})
-    if account.status_code != 200:
-        print("Failed to retrieve account information.")
-        exit(1)
-    account_json = account.json()
-    return account_json[0].get('client_id','')
-
 # Get all organization within defined account
 def get_organizations(token):
     orgs = requests.get(f'{RUNZERO_BASE_URL}/account/orgs', headers={"Content-Type": "application/json", "Authorization": "Bearer " + token})
@@ -57,7 +48,6 @@ def write_to_csv(output: list, filename: str, fieldnames: list):
 
 def main():
     access_token = get_token()
-    client_id = get_client_id(access_token)
     orgs = get_organizations(access_token)
     
     subnets_output = []
