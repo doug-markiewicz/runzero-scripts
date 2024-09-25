@@ -57,9 +57,7 @@ def check_passive(token, agent_id):
     if tasks.status_code != 200:
         print('Failed to retrieve task data and confirm whether passive sampling is configure on explorer ' + agent_id + '.')
         exit(1)
-
     tasks_json = tasks.json()
-    
     if len(tasks_json) == 0:
         return False
     else:
@@ -73,7 +71,7 @@ def write_to_csv(output: list, filename: str, fieldnames: list):
     writer.writerows(output)
     file.close()
 
-def explorers_healthcheck():
+def main():
 
     access_token = get_token()
     client_id = get_client_id(access_token)
@@ -138,4 +136,4 @@ def explorers_healthcheck():
     write_to_csv(output=explorers_output, filename="get_explorers_output.csv", fieldnames=explorer_fields)
 
 if __name__ == '__main__':
-    explorers_healthcheck()
+    main()
