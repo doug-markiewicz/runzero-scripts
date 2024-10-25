@@ -1,0 +1,14 @@
+# Ignore all log files
+*.log
+
+# Ignore data files
+**/data
+*.csv
+
+# Ignore sensitive files
+.env
+*.key
+
+# Ignore other misc stuff
+.DS_Store
+__pycache__/

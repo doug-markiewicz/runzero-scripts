@@ -1,0 +1,36 @@
+{
+    "asset": {
+        "id": "1188f15f-d470-4782-87f7-a844186407a2",
+        "macs": [
+            "ba:0c:1d:0d:32:73",
+            "9e:8f:6f:10:0b:23"
+        ],
+        "addresses": [
+            "192.168.86.1",
+            "10.10.10.1"
+        ],
+        "addresses_extra": [
+            "10.10.10.4"
+        ],
+        "hostnames": [
+            "hostname1",
+            "hostname2"
+        ],
+        "domains": [
+            "example.com",
+            "example2.com"
+        ],
+        "first_seen": 1712068329,
+        "os": "Microsoft Windows",
+        "os_vendor": "Microsoft",
+        "os_version": "",
+        "hw": "SuperServer",
+        "hw_vendor": "",
+        "tags": "tag1=value1\ttag2=value 2",
+        "device_type": "Server",
+        "custom_attributes": {
+            "custom.attr1": "hello, world!",
+            "custom.attr2": "goodbye, world!"
+        }
+    }
+}

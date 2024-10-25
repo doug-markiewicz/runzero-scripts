@@ -1,0 +1,8 @@
+type,hostname,domains,address,mac,os,hw,comments
+Laptop,laptop-001,domain.local,192.168.3.10,bc:d0:74:3e:2b:86,Apple macOS,Apple MacBook Pro,
+Laptop,laptop-002,domain.local,192.168.3.11,14:f6:d8:c1:6a:1f,Microsoft Windows 10 (2004-22H2),Dell Latitude,
+Desktop,desktop-001,domain.local,192.168.3.12,a4:97:b1:d0:39:dd,Google ChromeOS,Chomebook,
+Desktop,desktop-002,domain.local,192.168.3.13,14:f6:d8:c1:6a:2f,Microsoft Windows 10 (2004-22H2),Dell Inspiron 24,This asset is being decommissioend.
+Server,server-001,domain.local,192.168.2.10,14:f6:d8:c1:6a:3f,Microsoft Windows Server 2016,Dell PowerEdge,
+Server,server-002,domain.local,192.168.2.11,14:f6:d8:c1:6a:4f,Ubuntu Linux,Dell PowerEdge,
+Router,router-001,domain.local,192.168.1.1,24:5a:4c:87:6a:1e,Unifi OS,Ubiquiti Security Gateway,

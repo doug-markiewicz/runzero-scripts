@@ -1,0 +1,54 @@
+explorer metrics                                : 03/25/2024, 11:49:04
+
+  latest explorer version                       : 4.0.240320.0
+  recommended explorer memory                   : 8 GiB (8589934592bytes)
+
+  total explorers                               : 6 explorers across 4 organizations.
+  online explorers                              : 5
+  offline explorers                             : 1
+  explorers running latest version              : 1
+  explorers not running latest version          : 5
+  explorers with passive sampling enabled       : 2
+  explorers that support screenshots            : 6
+  explorers below recommended memory allocation : 3
+
+task metrics (last 1000 tasks)                  : 03/25/2024, 11:49:09
+
+  analysis tasks                                : 0
+  connector tasks                               : 480
+  sample tasks                                  : 455
+  scan tasks                                    : 65
+  scan tasks using a template                   : 0
+  task templates configured                     : 4
+
+tasks by status (last 1000 tasks):
+
+  active tasks                                  : 1
+  canceled tasks                                : 131
+  error tasks                                   : 456
+  new tasks                                     : 0
+  processed tasks                               : 410
+  processing tasks                              : 0
+  scanned tasks                                 : 0
+  stopped tasks                                 : 2
+
+recurring task metrics:
+
+  total recurring tasks                         : 13
+  active recurring tasks                        : 10
+  paused recurring tasks                        : 3
+  recurring analysis tasks                      : 3
+  recurring connector tasks                     : 3
+  recurring sample tasks                        : 2
+  recurring scan tasks                          : 5
+  recurring scan tasks using template           : 0
+
+task errors (last 1000 tasks):
+
+  explorer unavailable (124)
+  explorer unavailable after 12h (6)
+  failed to get Graph API client: ClientSecretCredential authentication failed (456)
+  explorer unavailable after 4h (1)
+  explorer timeout (1)
+  active scan started (1)
+
