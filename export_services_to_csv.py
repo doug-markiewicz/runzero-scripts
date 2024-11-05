@@ -4,10 +4,13 @@ import json
 import csv
 from dotenv import load_dotenv
 
+# load global variables from .env file
 load_dotenv()
 RUNZERO_ORG_ID = os.getenv('RUNZERO_ORG_ID')
 RUNZERO_EXPORT_TOKEN = os.getenv('RUNZERO_EXPORT_TOKEN')
 RUNZERO_BASE_URL = 'https://console.runZero.com/api/v1.0'
+
+# set path of export files
 CSV_FILE = '/Users/doug/Documents/Projects/runzero-scripts/export_services.csv'
 
 # define runzero services query
