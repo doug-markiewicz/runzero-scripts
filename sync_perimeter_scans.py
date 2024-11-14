@@ -30,7 +30,7 @@ SAAS_TASK_SEARCH_FILTER = 'name:="Perimeter Scan - Daily" and status:"Processed"
 
 '''
 The folowing parameters determine clean-up behavior following the sync. 
-   HIDE_TASKS_ON_SYNC - Hide tasks on the SaaS instance once a sync occurs. This will help avoid reprocessing of same scan tasks.
+   HIDE_TASKS_ON_SYNC - Hide tasks within the SaaS console. Data/logs associated with the task will no longer be accessible from the SaaS console. 
    DELETE_LOCAL_FILES - Clean-up gzip files stored on your local filesystem as part of running this script.
 '''
 HIDE_TASKS_ON_SYNC = False
