@@ -1,54 +1,122 @@
-explorer metrics                                : 03/25/2024, 11:49:04
+explorer metrics                                
+  total explorers                               6 explorers across 4 organizations.
+  online explorers                              5
+  offline explorers                             1
+  explorers running latest version              0
+  explorers not running latest version          6
+  explorers with passive sampling enabled       2
+  explorers that support screenshots            6
+  explorers below recommended memory allocation 2
 
-  latest explorer version                       : 4.0.240320.0
-  recommended explorer memory                   : 8 GiB (8589934592bytes)
-
-  total explorers                               : 6 explorers across 4 organizations.
-  online explorers                              : 5
-  offline explorers                             : 1
-  explorers running latest version              : 1
-  explorers not running latest version          : 5
-  explorers with passive sampling enabled       : 2
-  explorers that support screenshots            : 6
-  explorers below recommended memory allocation : 3
-
-task metrics (last 1000 tasks)                  : 03/25/2024, 11:49:09
-
-  analysis tasks                                : 0
-  connector tasks                               : 480
-  sample tasks                                  : 455
-  scan tasks                                    : 65
-  scan tasks using a template                   : 0
-  task templates configured                     : 4
-
-tasks by status (last 1000 tasks):
-
-  active tasks                                  : 1
-  canceled tasks                                : 131
-  error tasks                                   : 456
-  new tasks                                     : 0
-  processed tasks                               : 410
-  processing tasks                              : 0
-  scanned tasks                                 : 0
-  stopped tasks                                 : 2
+task metrics (last 1000 tasks)                  
+  analysis tasks                                0
+  connector tasks                               9
+  sample tasks                                  690
+  scan tasks                                    301
+  scan tasks using a template                   0
+  task templates configured                     4
+  active tasks                                  1
+  canceled tasks                                1
+  error tasks                                   9
+  new tasks                                     0
+  processed tasks                               988
+  processing tasks                              0
+  scanned tasks                                 0
+  stopped tasks                                 1
 
 recurring task metrics:
-
-  total recurring tasks                         : 13
-  active recurring tasks                        : 10
-  paused recurring tasks                        : 3
-  recurring analysis tasks                      : 3
-  recurring connector tasks                     : 3
-  recurring sample tasks                        : 2
-  recurring scan tasks                          : 5
-  recurring scan tasks using template           : 0
+  total recurring tasks                         15
+  active recurring tasks                        10
+  paused recurring tasks                        5
+  recurring analysis tasks                      3
+  recurring connector tasks                     3
+  recurring sample tasks                        2
+  recurring scan tasks                          7
+  recurring scan tasks using template           0
 
 task errors (last 1000 tasks):
+  failed to load azure data: failed to map subscriptionIDs to tenantIDs: failed to get the next page of subscriptions: ClientSecretCredential authentication failed.  (9)
+  task canceled by doug.markiewicz@gmail.com (1)
 
-  explorer unavailable (124)
-  explorer unavailable after 12h (6)
-  failed to get Graph API client: ClientSecretCredential authentication failed (456)
-  explorer unavailable after 4h (1)
-  explorer timeout (1)
-  active scan started (1)
+site metrics
+  Passive Discovery:Private Network
+    total asset count                            : 53
+    recent asset count                           : 50
+    live asset count                             : 0
+    service count                                : 957
+    service count_tcp                            : 202
+    service count_udp                            : 642
+    service count_arp                            : 47
+    service count_icmp                           : 29
+    software count                               : 23
+    vulnerability count                          : 0
+    registered subnets                           : 0
 
+  Passive Discovery:Perimeter Network
+    total asset count                            : 0
+    recent asset count                           : 0
+    live asset count                             : 0
+    service count                                : 0
+    service count_tcp                            : 0
+    service count_udp                            : 0
+    service count_arp                            : 0
+    service count_icmp                           : 0
+    software count                               : 0
+    vulnerability count                          : 0
+    registered subnets                           : 0
+
+  Custom Integration Testing:Primary
+    total asset count                            : 7
+    recent asset count                           : 0
+    live asset count                             : 0
+    service count                                : 0
+    service count_tcp                            : 0
+    service count_udp                            : 0
+    service count_arp                            : 0
+    service count_icmp                           : 0
+    software count                               : 0
+    vulnerability count                          : 0
+    registered subnets                           : 0
+
+  Default scan exclusion testing:Primary
+    total asset count                            : 0
+    recent asset count                           : 0
+    live asset count                             : 0
+    service count                                : 0
+    service count_tcp                            : 0
+    service count_udp                            : 0
+    service count_arp                            : 0
+    service count_icmp                           : 0
+    software count                               : 0
+    vulnerability count                          : 0
+    registered subnets                           : 0
+
+  Evergreen Labs:Private Network
+    total asset count                            : 45
+    recent asset count                           : 45
+    live asset count                             : 39
+    service count                                : 531
+    service count_tcp                            : 312
+    service count_udp                            : 67
+    service count_arp                            : 44
+    service count_icmp                           : 56
+    software count                               : 100
+    vulnerability count                          : 1116
+    registered subnets                           : 4
+
+  Evergreen Labs:Perimeter
+    total asset count                            : 2
+    recent asset count                           : 2
+    live asset count                             : 2
+    service count                                : 38
+    service count_tcp                            : 20
+    service count_udp                            : 0
+    service count_arp                            : 0
+    service count_icmp                           : 2
+    software count                               : 8
+    vulnerability count                          : 1
+    registered subnets                           : 0
+
+  total number of organizations                  : 9
+  total number of sites                          : 6
+  total number of registered subnets             : 4

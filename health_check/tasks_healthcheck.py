@@ -338,7 +338,7 @@ def tasks_healthcheck():
 
     # write metrics
     with open(metrics_output_file, 'a') as f:
-        f.write('task metrics (last 1000 tasks)                  \n')
+        f.write('task metrics (last 1000 tasks)\n')
         f.write('  analysis tasks                                ' + str(metric_tasks_analysis) + '\n')
         f.write('  connector tasks                               ' + str(metric_tasks_connector) + '\n')
         f.write('  sample tasks                                  ' + str(metric_tasks_sample) + '\n')

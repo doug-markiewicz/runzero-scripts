@@ -201,7 +201,7 @@ def explorers_healthcheck():
 
     with open(metrics_output_file, 'a') as f:
 
-        f.write('explorer metrics                                ' + datetime.now().strftime('%m/%d/%Y, %H:%M:%S') + '\n')
+        f.write('explorer metrics\n')
         f.write('  total explorers                               ' + str(metric_explorer_count) + ' explorers across ' + str(metric_org_count) + ' organizations.\n')
         f.write('  online explorers                              ' + str(metric_online_explorers) + '\n')
         f.write('  offline explorers                             ' + str(metric_offline_explorers) + '\n')
