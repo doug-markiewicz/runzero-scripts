@@ -201,19 +201,15 @@ def explorers_healthcheck():
 
     with open(metrics_output_file, 'a') as f:
 
-        f.write('explorer metrics                                : ' + datetime.now().strftime('%m/%d/%Y, %H:%M:%S') + '\n')
-        f.write('\n')
-        f.write('  latest explorer version                       : ' + current_version + '\n')
-        f.write('  recommended explorer memory                   : ' + str(recommended_explorer_memory_GiB) + ' GiB (' + str(recommended_explorer_memory_bytes) + 'bytes)\n')
-        f.write('\n')
-        f.write('  total explorers                               : ' + str(metric_explorer_count) + ' explorers across ' + str(metric_org_count) + ' organizations.\n')
-        f.write('  online explorers                              : ' + str(metric_online_explorers) + '\n')
-        f.write('  offline explorers                             : ' + str(metric_offline_explorers) + '\n')
-        f.write('  explorers running latest version              : ' + str(metric_up_to_date_explorers) + '\n')
-        f.write('  explorers not running latest version          : ' + str(metric_out_of_date_explorers) + '\n')
-        f.write('  explorers with passive sampling enabled       : ' + str(metric_passive_sampling) + '\n')
-        f.write('  explorers that support screenshots            : ' + str(metric_supports_screenshots) + '\n')
-        f.write('  explorers below recommended memory allocation : ' + str(metric_memory_allocation) + '\n')
+        f.write('explorer metrics                                ' + datetime.now().strftime('%m/%d/%Y, %H:%M:%S') + '\n')
+        f.write('  total explorers                               ' + str(metric_explorer_count) + ' explorers across ' + str(metric_org_count) + ' organizations.\n')
+        f.write('  online explorers                              ' + str(metric_online_explorers) + '\n')
+        f.write('  offline explorers                             ' + str(metric_offline_explorers) + '\n')
+        f.write('  explorers running latest version              ' + str(metric_up_to_date_explorers) + '\n')
+        f.write('  explorers not running latest version          ' + str(metric_out_of_date_explorers) + '\n')
+        f.write('  explorers with passive sampling enabled       ' + str(metric_passive_sampling) + '\n')
+        f.write('  explorers that support screenshots            ' + str(metric_supports_screenshots) + '\n')
+        f.write('  explorers below recommended memory allocation ' + str(metric_memory_allocation) + '\n')
         f.write('\n')
 
     print('Explorer metrics appended to ' + os.getcwd() + '/' + metrics_output_file)
