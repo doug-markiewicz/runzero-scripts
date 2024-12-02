@@ -41,6 +41,10 @@ I'm not a good coder. Don't judge.
 * Combine metrics and data exports into a single report (likely a multi-tab .xlsx)
 
 ## Change log
+* 2024-11-25
+  * Added script to pull site data and metrics
+  * Updated formatting of metrics file
+
 * 2024-03-25
   * Updated filenames and path for output files
   * Updated formatting of metrics.txt output file
