@@ -24,6 +24,15 @@ def get_token():
         token_json = json.loads(token_response.text)
         return token_json['access_token']    
 
+# Get client id
+def get_client_id(token):
+    account = requests.get(f'{RUNZERO_BASE_URL}/account/orgs', headers={"Content-Type": "application/json", "Authorization": "Bearer " + token})
+    if account.status_code != 200:
+        print("Failed to retrieve account information.")
+        exit(1)
+    account_json = account.json()
+    return account_json[0].get('client_id','')
+
 # Get all organization within defined account
 def get_organizations(token):
     orgs = requests.get(f'{RUNZERO_BASE_URL}/account/orgs', headers={"Content-Type": "application/json", "Authorization": "Bearer " + token})
@@ -50,34 +59,42 @@ def write_to_csv(output: list, filename: str, fieldnames: list):
     file.close()
 
 def main():
-    access_token = get_token()
-    orgs = get_organizations(access_token)
-
     recur_tasks_output = []
     recur_tasks_fields = [
         "organization_name",
         "organization_id",
-        "id",
-        "name",
+        "task_id",
+        "task_name",
         "description",
         "type",
         "status",
         "error",
         "created_by",
         "created_at",
-        "updated_at",        
-        "site_name",
+        "updated_at",
         "site_id",
-        "agent_name",
+        "site_name",        
         "agent_id",
-        "frequency",
+        "agent_name",           
+        "start_time",
+        "grace_period",
+        "recur_frequency",
         "recur_last",
         "recur_next",
-        "targets",
-        "template_name",
         "template_id",
-        "rate"
-    ]    
+        "scan_rate",
+        "max_host_rate",
+        "max_group_size",
+        "host_ping",
+        "subnet_ping",
+        "subnet_ping_sample_rate",
+        "nameservers",
+        "targets",
+        "excludes"        
+    ]        
+
+    access_token = get_token()
+    orgs = get_organizations(access_token)
 
     for o in orgs:
         org_id = o.get('id', '')
@@ -90,29 +107,40 @@ def main():
             recur_tasks_output.append({
                 'organization_name':org_name,
                 'organization_id':org_id,
-                'id':item.get('id',''),
-                'name':item.get('name'),
-                'description':item.get('description'),            
-                'type':item.get('type',''),
-                'status':item.get('status',''),            
-                'error':item.get('error',''),
-                'created_by':item.get('created_by',''),
+                'task_id':item.get('id', ''),
+                'task_name':item.get('name', ''),
+                'description':item.get('description', ''),        
+                'type':item.get('type', ''),
+                'status':item.get('status', ''),            
+                'error':item.get('error', ''),
+                'created_by':item.get('created_by', ''),
                 'created_at':datetime.fromtimestamp(item.get('created_at', '')).strftime('%Y-%m-%d %H:%M:%S'), 
                 'updated_at':datetime.fromtimestamp(item.get('updated_at', '')).strftime('%Y-%m-%d %H:%M:%S'), 
-                'site_name':item.get('site_name',''),
-                'site_id':item.get('site_id',''),
-                'agent_name':item.get('agent_name',''),            
-                'agent_id':item.get('agent_id',''),
-                'frequency':item.get('agent_id',''),
-                'recur_last':datetime.fromtimestamp(item.get('recur_last', '')).strftime('%Y-%m-%d %H:%M:%S'), 
-                'recur_next':datetime.fromtimestamp(item.get('recur_next', '')).strftime('%Y-%m-%d %H:%M:%S'), 
-                'targets':item.get('targets',''),
-                'template_name':item.get('template_name',''),
-                'template_id':item.get('template_id',''),
-                'rate':item.get('rate','')       
+                'site_id':item.get('site_id', ''),
+                'site_name':item.get('site_name', ''),                            
+                'agent_id':item.get('agent_id', ''),
+                'agent_name':item.get('agent_name', ''),
+                'start_time':datetime.fromtimestamp(item.get('start_time', '')).strftime('%Y-%m-%d %H:%M:%S'), 
+                'grace_period':item.get('grace_period', ''),
+                'recur_frequency':item.get('recur_frequency', ''),
+                'recur_last':datetime.fromtimestamp(item.get('recur_last', '')).strftime('%Y-%m-%d %H:%M:%S'),
+                'recur_next':datetime.fromtimestamp(item.get('recur_next', '')).strftime('%Y-%m-%d %H:%M:%S'),
+                'template_id':item.get('template_id', ''),
+                'scan_rate':item.get('params', {}).get('rate', ''),
+                'max_host_rate':item.get('params', {}).get('max-host-rate', ''), 
+                'max_group_size':item.get('params', {}).get('max-group-size', ''),
+                'host_ping':item.get('params', {}).get('host-ping', ''), 
+                'subnet_ping':item.get('params', {}).get('subnet-ping', ''),   
+                'subnet_ping_sample_rate':item.get('params', {}).get('subnet-ping-sample-rate', ''),
+                'nameservers':item.get('params', {}).get('nameservers', ''),
+                'targets':item.get('params', {}).get('targets', ''),
+                'excludes':item.get('params', {}).get('excludes', ''),                                                                                                          
             })
 
-    write_to_csv(output=recur_tasks_output, filename="get_recur_tasks_output.csv", fieldnames=recur_tasks_fields)
+    client_id = get_client_id(access_token)
+    recur_tasks_output_file = 'tasks_recurring_' + client_id + '_' + date.today().strftime("%Y%m%d") + '.csv'
+    write_to_csv(output=recur_tasks_output, filename=recur_tasks_output_file, fieldnames=recur_tasks_fields)
+    print('Recurring tasks saved to ' + os.getcwd() + '/' + recur_tasks_output_file)
 
 if __name__ == '__main__':
     main()
