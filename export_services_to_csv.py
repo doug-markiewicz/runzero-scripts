@@ -61,7 +61,7 @@ def main():
 
         output.append(row)
 
-    # export .csv file and create assets in runZero
+    # export services to csv file
     with open(CSV_FILE, mode='w') as file:
         writer = csv.DictWriter(file, fieldnames=output[0].keys())
         writer.writeheader()
