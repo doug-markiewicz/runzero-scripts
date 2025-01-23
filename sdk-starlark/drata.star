@@ -1,12 +1,12 @@
 # runZero Starlark script for Drata
-# Last updated 11/14/2024
-# NOTE: Still need to add parsing for assetClassType and complianceChecks
+# Last updated 1/22/2024
 
 load('runzero.types', 'ImportAsset', 'NetworkInterface')
 load('json', json_encode='encode', json_decode='decode')
 load('net', 'ip_address')
 load('http', http_post='post', http_get='get', 'url_encode')
 load('uuid', 'new_uuid')
+load('flatten_json', 'flatten')
 
 DRATA_URL = 'https://public-api.drata.com'
 
@@ -49,7 +49,63 @@ def build_assets(assets_json):
             deleted_at = device.get('deletedAt', '')
             apps_count = device.get('appsCount', '')
             is_device_compliant = device.get('isDeviceCompliant', '')
+
+            # parse Drata compliance checks; will likely need updated based on your configuration
+            compliance_checks = []
             compliance_checks = device.get('complianceChecks', {})
+            if compliance_checks:
+                for check in compliance_checks:
+                    check_type = check.get('type', '')
+                    if check_type == 'AGENT_INSTALLED':
+                        deviceComplianceCheckAgentInstalledCreatedAt = check.get('createdAt', '')
+                        deviceComplianceCheckAgentInstalledExpiresAt = check.get('createdAt', '')
+                        deviceComplianceCheckAgentInstalledId = check.get('id', '')
+                        deviceComplianceCheckAgentInstalledLastCheckedAt = check.get('lastCheckedAt', '')
+                        deviceComplianceCheckAgentInstalledStatus = check.get('status', '')
+                        deviceComplianceCheckAgentInstalledType = check.get('type', '')
+                        deviceComplianceCheckAgentInstalledUpdatedAt = check.get('updatedAt', '')  
+                    elif check_type == 'PASSWORD_MANAGER':
+                        deviceComplianceCheckPasswordManagerCreatedAt = check.get('createdAt', '')
+                        deviceComplianceCheckPasswordManagerExpiresAt = check.get('createdAt', '')
+                        deviceComplianceCheckPasswordManagerId = check.get('id', '')
+                        deviceComplianceCheckPasswordManagerLastCheckedAt = check.get('lastCheckedAt', '')
+                        deviceComplianceCheckPasswordManagerStatus = check.get('status', '')
+                        deviceComplianceCheckPasswordManagerType = check.get('type', '')
+                        deviceComplianceCheckPasswordManagerUpdatedAt = check.get('updatedAt', '')                      
+                    elif check_type == 'HDD_ENCRYPTION':
+                        deviceComplianceCheckDiskEncryptionCreatedAt = check.get('createdAt', '')
+                        deviceComplianceCheckDiskEncryptionExpiresAt = check.get('createdAt', '')
+                        deviceComplianceCheckDiskEncryptionId = check.get('id', '')
+                        deviceComplianceCheckDiskEncryptionLastCheckedAt = check.get('lastCheckedAt', '')
+                        deviceComplianceCheckDiskEncryptionStatus = check.get('status', '')
+                        deviceComplianceCheckDiskEncryptionType = check.get('type', '')
+                        deviceComplianceCheckDiskEncryptionUpdatedAt = check.get('updatedAt', '')  
+                    elif check_type == 'ANTIVIRUS':
+                        deviceComplianceCheckAntivirusCreatedAt = check.get('createdAt', '')
+                        deviceComplianceCheckAntivirusExpiresAt = check.get('createdAt', '')
+                        deviceComplianceCheckAntivirusId = check.get('id', '')
+                        deviceComplianceCheckAntivirusLastCheckedAt = check.get('lastCheckedAt', '')
+                        deviceComplianceCheckAntivirusStatus = check.get('status', '')
+                        deviceComplianceCheckAntivirusType = check.get('type', '')
+                        deviceComplianceCheckAntivirusUpdatedAt = check.get('updatedAt', '')  
+                    elif check_type == 'AUTO_UPDATES':
+                        deviceComplianceCheckAutoUpdatesCreatedAt = check.get('createdAt', '')
+                        deviceComplianceCheckAutoUpdatesExpiresAt = check.get('createdAt', '')
+                        deviceComplianceCheckAutoUpdatesId = check.get('id', '')
+                        deviceComplianceCheckAutoUpdatesLastCheckedAt = check.get('lastCheckedAt', '')
+                        deviceComplianceCheckAutoUpdatesStatus = check.get('status', '')
+                        deviceComplianceCheckAutoUpdatesType = check.get('type', '')
+                        deviceComplianceCheckAutoUpdatesUpdatedAt = check.get('updatedAt', '')  
+                    elif check_type == 'LOCK_SCREEN':
+                        deviceComplianceCheckLockScreenCreatedAt = check.get('createdAt', '')
+                        deviceComplianceCheckLockScreenExpiresAt = check.get('createdAt', '')
+                        deviceComplianceCheckLockScreenId = check.get('id', '')
+                        deviceComplianceCheckLockScreenLastCheckedAt = check.get('lastCheckedAt', '')
+                        deviceComplianceCheckLockScreenStatus = check.get('status', '')
+                        deviceComplianceCheckLockScreenType = check.get('type', '')
+                        deviceComplianceCheckLockScreenUpdatedAt = check.get('updatedAt', '')  
+                    else:
+                        print('unrecognized compliance check: ' + type)              
 
         owner = []
         owner = item.get('owner', {})
@@ -63,21 +119,12 @@ def build_assets(assets_json):
             owner_updated_at = owner.get('updatedAt', '')
             owner_roles = owner.get('roles', [])
 
-        # handle additional attributes collected for asset
-        custom_attrs = {}
-        custom_attribs_to_ignore = []
-
-        for key, value in item.items():
-            if type(value) != 'dict':
-                if key not in custom_attribs_to_ignore:
-                    custom_attrs[key] = str(value)[:1023]
-
         assets_import.append(
             ImportAsset(
                 id=str(id),
                 hostnames=[hostname],
                 networkInterfaces=[network],
-                os=os_version,
+                os=os_version,    
                 customAttributes={
                     "description":description,
                     "assetType":asset_type,
@@ -101,7 +148,48 @@ def build_assets(assets_json):
                     "device.deletedAt":deleted_at,
                     "device.appsCount":apps_count,
                     "device.isDeviceCompliant":is_device_compliant,
-                    "device.complianceChecks":[compliance_checks],
+                    "device.complianceCheckAgentInstalledCreatedAt":deviceComplianceCheckAgentInstalledCreatedAt,
+                    "device.complianceCheckAgentInstalledExpiresAt":deviceComplianceCheckAgentInstalledExpiresAt,
+                    "device.complianceCheckAgentInstalledId":deviceComplianceCheckAgentInstalledId,
+                    "device.complianceCheckAgentInstalledLastCheckedAt":deviceComplianceCheckAgentInstalledLastCheckedAt,
+                    "device.complianceCheckAgentInstalledStatus":deviceComplianceCheckAgentInstalledStatus,
+                    "device.complianceCheckAgentInstalledType":deviceComplianceCheckAgentInstalledType,
+                    "device.complianceCheckAgentInstalledUpdatedAt":deviceComplianceCheckAgentInstalledUpdatedAt,
+                    "device.complianceCheckPasswordManagerCreatedAt":deviceComplianceCheckPasswordManagerCreatedAt,
+                    "device.complianceCheckPasswordManagerExpiresAt":deviceComplianceCheckPasswordManagerExpiresAt,
+                    "device.complianceCheckPasswordManagerId":deviceComplianceCheckPasswordManagerId,
+                    "device.complianceCheckPasswordManagerLastCheckedAt":deviceComplianceCheckPasswordManagerLastCheckedAt,
+                    "device.complianceCheckPasswordManagerStatus":deviceComplianceCheckPasswordManagerStatus,
+                    "device.complianceCheckPasswordManagerType":deviceComplianceCheckPasswordManagerType,
+                    "device.complianceCheckPasswordManagerUpdatedAt":deviceComplianceCheckPasswordManagerUpdatedAt,
+                    "device.complianceCheckDiskEncryptionCreatedAt":deviceComplianceCheckDiskEncryptionCreatedAt,
+                    "device.complianceCheckDiskEncryptionExpiresAt":deviceComplianceCheckDiskEncryptionExpiresAt,
+                    "device.complianceCheckDiskEncryptionId":deviceComplianceCheckDiskEncryptionId,
+                    "device.complianceCheckDiskEncryptionLastCheckedAt":deviceComplianceCheckDiskEncryptionLastCheckedAt,
+                    "device.complianceCheckDiskEncryptionStatus":deviceComplianceCheckDiskEncryptionStatus,
+                    "device.complianceCheckDiskEncryptionType":deviceComplianceCheckDiskEncryptionType,
+                    "device.complianceCheckDiskEncryptionUpdatedAt":deviceComplianceCheckDiskEncryptionUpdatedAt,
+                    "device.complianceCheckAntivirusCreatedAt":deviceComplianceCheckAntivirusCreatedAt,
+                    "device.complianceCheckAntivirusExpiresAt":deviceComplianceCheckAntivirusExpiresAt,
+                    "device.complianceCheckAntivirusId":deviceComplianceCheckAntivirusId,
+                    "device.complianceCheckAntivirusLastCheckedAt":deviceComplianceCheckAntivirusLastCheckedAt,
+                    "device.complianceCheckAntivirusStatus":deviceComplianceCheckAntivirusStatus,
+                    "device.complianceCheckAntivirusType":deviceComplianceCheckAntivirusType,
+                    "device.complianceCheckAntivirusUpdatedAt":deviceComplianceCheckAntivirusUpdatedAt,
+                    "device.complianceCheckAutoUpdatesCreatedAt":deviceComplianceCheckAutoUpdatesCreatedAt,
+                    "device.complianceCheckAutoUpdatesExpiresAt":deviceComplianceCheckAutoUpdatesExpiresAt,
+                    "device.complianceCheckAutoUpdatesId":deviceComplianceCheckAutoUpdatesId,
+                    "device.complianceCheckAutoUpdatesLastCheckedAt":deviceComplianceCheckAutoUpdatesLastCheckedAt,
+                    "device.complianceCheckAutoUpdatesStatus":deviceComplianceCheckAutoUpdatesStatus,
+                    "device.complianceCheckAutoUpdatesType":deviceComplianceCheckAutoUpdatesType,
+                    "device.complianceCheckAutoUpdatesUpdatedAt":deviceComplianceCheckAutoUpdatesUpdatedAt,
+                    "device.complianceCheckLockScreenCreatedAt":deviceComplianceCheckLockScreenCreatedAt,
+                    "device.complianceCheckLockScreenExpiresAt":deviceComplianceCheckLockScreenExpiresAt,
+                    "device.complianceCheckLockScreenId":deviceComplianceCheckLockScreenId,
+                    "device.complianceCheckLockScreenLastCheckedAt":deviceComplianceCheckLockScreenLastCheckedAt,
+                    "device.complianceCheckLockScreenStatus":deviceComplianceCheckLockScreenStatus,
+                    "device.complianceCheckLockScreenType":deviceComplianceCheckLockScreenType,
+                    "device.complianceCheckLockScreenUpdatedAt":deviceComplianceCheckLockScreenUpdatedAt,
                     "owner.id":owner_id,
                     "owner.email":owner_email,
                     "owner.firstName":owner_first_name,
