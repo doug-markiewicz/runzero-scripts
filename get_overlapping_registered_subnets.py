@@ -15,6 +15,10 @@ SITES_TO_IGNORE = [
     'Excluded Site 3'
 ]
 
+SUBNETS_TO_IGNORE = [
+    ipaddress.ip_network('192.168.1.0/24')
+]
+
 # Get all sites within specified organization
 def get_sites(token, org_id):
     sites = requests.get(f'{RUNZERO_BASE_URL}/org/sites?_oid={org_id}', headers={"Content-Type": "application/json", "Authorization": "Bearer " + token})
@@ -23,14 +27,17 @@ def get_sites(token, org_id):
         exit(1)
     return sites.json()
 
+# Parse registered subnets
 def parse_subnets(site):
     subnets = site.get('subnets', {})
     out = []
     for key in subnets.keys():
-         net = ipaddress.ip_network(key)
-         out.append((net, site['id'], site['name']))
+        net = ipaddress.ip_network(key)
+        if net not in SUBNETS_TO_IGNORE:
+            out.append((net, site['id'], site['name']))
     return out
 
+# Find overlaps in registered subnets
 def find_overlaps(subnet_list):
     overlaps = []
     for (net1, sid1, name1), (net2, sid2, name2) in combinations(subnet_list, 2):
