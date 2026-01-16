@@ -17,7 +17,7 @@ Set CSV_FILE to the location of the file you want to read in.
 Set CSV_COLUMN to the column where the IP address is located. Column A is 0. 
 Set CSV_HEADER to True if your CSV file contains a header row or False is no header.
 '''
-CSV_FILE = '/Users/doug/Documents/Projects/runzero-scripts/tag_assets_cross_org.csv'
+CSV_FILE = 'tag_assets_cross_org.csv'
 CSV_COLUMN = 0
 CSV_HEADER = True
 
@@ -25,7 +25,7 @@ CSV_HEADER = True
 TAG = 'INFRA'
 
 # Path to the list of IPs that were not found and tagged
-OUTPUT_FILE = '/Users/doug/Documents/Projects/runzero-scripts/tag_assets_cross_org.log'
+OUTPUT_FILE = 'tag_assets_cross_org.log'
 
 # Set up logging
 logging.basicConfig(
