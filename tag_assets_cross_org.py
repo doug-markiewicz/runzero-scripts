@@ -2,7 +2,6 @@ import requests
 import os
 import json
 import csv
-#from datetime import datetime
 import sys
 import logging
 
