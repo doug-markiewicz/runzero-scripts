@@ -1,0 +1,32 @@
+runZero Alert: New Printer Discovered
+Rule: {{rule.name}}
+Organization: {{organization.name}}
+Site: {{site.name}}
+
+{{query.count}} printer(s) matched your query. Details below.
+
+Detected by Explorer: {{explorer.name}}
+Scan Target(s): {{scan.targets}}
+Scan Start: {{scan.start_time}}
+Scan End: {{scan.end_time}}
+
+========================================
+PRINTER DETAILS
+========================================
+
+{{#query.assets}}
+Asset ID: {{id}}
+Type: {{type}}
+Hardware: {{hw}}
+Category: {{category}}
+First Seen: {{first_seen}}
+
+IP Addresses: {{#addresses}}{{.}} {{/addresses}}
+Hostnames: {{#names}}{{.}} {{/names}}
+MAC Addresses: {{#macs}}{{.}}, {{/macs}}
+
+URL: {{console}}/inventory/{{id}}
+
+----------------------------------------
+
+{{/query.assets}}
