@@ -6,8 +6,9 @@ BULK_DELETE_BATCH_SIZE = 1000
 
 # List of queries that will be run to delete assets from the runZero asset inventory. 
 DELETE_ASSETS_QUERIES = [
+    # Sample queries:
     #'source:shodan and source_count:=1',
-    #'source:runzero and address_count:=1 and (address:"fde0%" or address:"fe80%")'
+    #'source:runzero and address_count:=1 and (primary_address:=fde0% or primary_address:=fe80%)'
 ]
 
 # Fetch an API token using the provided client credentials.
